@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shayer // Video Editor & Motion Designer </title>
+    <title>Shayer // Creative Director & Video Editor</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
@@ -29,6 +29,13 @@
             --bg-dark: #06080c;
             --bg-card: rgba(15, 20, 30, 0.4);
             --border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Hide default cursor completely on desktop device ranges */
+        @media (min-width: 1024px) {
+            *, *::before, *::after, html, body, a, button, select, input, textarea {
+                cursor: none !important;
+            }
         }
 
         body {
@@ -78,7 +85,7 @@
 
         /* Video isolation hover interactions */
         .video-grid-hover-effect:hover .grid-item-target:not(:hover) {
-            opacity: 0.2;
+            opacity: 0.15;
             filter: blur(4px) grayscale(0.8);
             transform: scale(0.97);
         }
@@ -110,7 +117,7 @@
             animation-play-state: paused;
         }
 
-        /* Testimonials Vertical Infinite Scroll Animation */
+        /* Testimonials Vertical Infinite Scroll Animation with Easing optimization */
         @keyframes scrollUp {
             0% { transform: translateY(0); }
             100% { transform: translateY(-50%); }
@@ -124,6 +131,13 @@
         }
         .scroll-col-3 {
             animation: scrollUp 28s linear infinite;
+        }
+
+        .scroll-col-1, .scroll-col-2, .scroll-col-3 {
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+            perspective: 1000px;
         }
 
         /* Pause scrolling on hover of container */
@@ -144,6 +158,7 @@
         .testimonial-card {
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: transform, opacity, filter;
+            backface-visibility: hidden;
         }
 
         .testimonial-card:hover {
@@ -176,10 +191,17 @@
         }
     </style>
 </head>
-<body class="text-[#f1f5f9] font-sans relative overflow-x-hidden min-h-screen">
+<body class="text-[#f1f5f9] font-sans relative overflow-x-hidden min-h-screen select-none">
 
-    <!-- Interactive subtle star canvas -->
-    <canvas id="constellation-canvas" class="fixed top-0 left-0 w-full h-full z-0 pointer-events-none opacity-20"></canvas>
+    <!-- Interactive Canvas Physics Simulation Backdrop -->
+    <canvas id="constellation-canvas" class="fixed top-0 left-0 w-full h-full z-0 pointer-events-none opacity-45"></canvas>
+
+    <!-- Custom Rounded Triangle Play Cursor (Ensuring extreme overlay stacking priority) -->
+    <div id="custom-cursor" class="fixed top-0 left-0 w-8 h-8 pointer-events-none z-[9999] transform -translate-x-1/2 -translate-y-1/2 transition-transform duration-75 ease-out opacity-0 lg:opacity-100 hidden lg:block">
+        <svg class="w-full h-full text-[var(--accent-primary)] filter drop-shadow-[0_2px_8px_rgba(var(--accent-primary-rgb),0.6)]" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        </svg>
+    </div>
 
     <!-- Ambient glows -->
     <div class="ambient-glow-1"></div>
@@ -190,16 +212,13 @@
 
         <!-- CLEAN MODERN HEADER -->
         <header class="w-full py-10 border-b border-white/[0.05] flex justify-between items-center">
-            <!-- Hidden Admin trigger: clicking Shayer 5 times unlocks the video drawer -->
-            <div onclick="handleAdminTrigger()" class="flex items-center space-x-3 cursor-pointer select-none group">
-                <span class="font-mono text-xs tracking-[0.3em] text-white font-extrabold group-hover:text-[#CCFF00] transition-colors">SHAYER</span>
-                <span class="w-1.5 h-1.5 rounded-full bg-[#CCFF00]"></span>
-                <span class="font-mono text-[9px] text-slate-400 tracking-widest uppercase">CREATIVE MOTION</span>
+            <div class="flex items-center space-x-3 select-none">
+                <span id="logo-branding" class="font-mono text-sm tracking-[0.3em] text-white font-extrabold">SHAYER</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)]"></span>
             </div>
             
             <div class="flex items-center space-x-8 font-mono text-[11px] text-slate-400">
-                <span id="header-time" class="tracking-widest hidden sm:inline">00:00:00 GMT</span>
-                <span class="text-xs tracking-wider border border-white/5 px-4 py-2 rounded-full text-slate-400 select-none">PORTFOLIO.V2</span>
+                <span class="text-xs tracking-wider border border-white/5 px-4 py-2 rounded-full text-slate-400 select-none">PORTFOLIO</span>
             </div>
         </header>
 
@@ -210,41 +229,39 @@
             <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                 <!-- Text Area (Left) -->
                 <div class="lg:col-span-6 space-y-6">
-                    <span class="font-mono text-[10px] text-[#CCFF00] tracking-widest uppercase block">CINEMATOGRAPHY & MOTION DESIGN</span>
-                    
-                    <h1 class="text-3xl sm:text-5xl font-light tracking-tight text-white leading-tight">
-                        Hi, I am Shayer. <br class="hidden sm:inline">
+                    <h1 id="hero-title" class="text-3xl sm:text-5xl font-light tracking-tight text-white leading-tight">
+                        Hi, I am Shayer. <br class="hidden sm:inline">I have been editing videos and creating motion design for 4 years.
                     </h1>
                     
-                    <p class="text-slate-400 text-sm sm:text-base leading-relaxed max-w-xl font-light">
+                    <p id="hero-desc" class="text-slate-400 text-sm sm:text-base leading-relaxed max-w-xl font-light">
                         Combining pacing, composition, and high-tempo edits to build unforgettable digital stories. Specialized in crafting bespoke frames for both social, short-form reels, and long-form cinematic layouts.
                     </p>
 
                     <!-- REFERENCE IMAGE DESIGN INTEGRATION ( Rosetta / Sadness Inspired Pop-Out Cards ) -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-10 max-w-md">
                         
-                        <!-- CARD 1: DOWNLOAD DOSSIER (Rosetta Red Style with Pop-out SVG) -->
+                        <!-- CARD 1: DOWNLOAD DOSSIER (Sophisticated Dark Slate Style with Pop-out SVG) -->
                         <div onclick="downloadResume()" class="relative group cursor-pointer pt-8">
                             <!-- Pop-out Graphics Element -->
                             <div class="absolute -top-3 left-6 w-16 h-16 transition-all duration-500 ease-out group-hover:-translate-y-2.5 group-hover:scale-110 pointer-events-none z-20">
-                                <svg class="w-full h-full filter drop-shadow-[0_8px_16px_rgba(239,68,68,0.4)]" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M50 15 L80 35 L80 70 L50 90 L20 70 L20 35 Z" fill="url(#grad-rosetta)" stroke="#ffccd0" stroke-width="1.5"/>
+                                <svg class="w-full h-full filter drop-shadow-[0_8px_16px_rgba(255,255,255,0.15)]" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M50 15 L80 35 L80 70 L50 90 L20 70 L20 35 Z" fill="url(#grad-rosetta)" stroke="#ffffff" stroke-width="1.5"/>
                                     <!-- Inner document glyph -->
                                     <rect x="38" y="38" width="24" height="28" rx="3" fill="white" />
-                                    <line x1="44" y1="45" x2="56" y2="45" stroke="#ff4155" stroke-width="2"/>
-                                    <line x1="44" y1="52" x2="56" y2="52" stroke="#ff4155" stroke-width="2"/>
-                                    <line x1="44" y1="59" x2="50" y2="59" stroke="#CCFF00" stroke-width="2"/>
+                                    <line x1="44" y1="45" x2="56" y2="45" stroke="#1e293b" stroke-width="2"/>
+                                    <line x1="44" y1="52" x2="56" y2="52" stroke="#1e293b" stroke-width="2"/>
+                                    <line x1="44" y1="59" x2="50" y2="59" stroke="var(--accent-primary)" stroke-width="2"/>
                                     <defs>
                                         <linearGradient id="grad-rosetta" x1="20" y1="15" x2="80" y2="90" gradientUnits="userSpaceOnUse">
-                                            <stop stop-color="#ff6b8b"/>
-                                            <stop offset="1" stop-color="#ef4444"/>
+                                            <stop stop-color="#475569"/>
+                                            <stop offset="1" stop-color="#0f172a"/>
                                         </linearGradient>
                                     </defs>
                                 </svg>
                             </div>
                             
                             <!-- Main Solid Card Box -->
-                            <div class="bg-[#ff4155] rounded-3xl p-5 pt-8 shadow-[0_15px_30px_rgba(239,68,68,0.25)] border border-white/10 relative overflow-hidden transition-all duration-500 group-hover:shadow-[0_25px_45px_rgba(239,68,68,0.45)] group-hover:border-white/20">
+                            <div class="bg-[#1e293b] rounded-3xl p-5 pt-8 shadow-[0_15px_30px_rgba(0,0,0,0.4)] border border-white/10 relative overflow-hidden transition-all duration-500 group-hover:shadow-[0_25px_45px_rgba(var(--accent-primary-rgb),0.15)] group-hover:border-[var(--accent-primary)]/40">
                                 <div class="absolute inset-0 bg-gradient-to-tr from-black/25 via-transparent to-white/10 pointer-events-none"></div>
                                 <div class="absolute -right-4 -bottom-4 w-16 h-16 rounded-full bg-white/5 border border-white/10 group-hover:scale-125 transition-transform duration-700"></div>
                                 
@@ -290,14 +307,14 @@
                     <div class="premium-card p-3 rounded-[32px] w-full max-w-[320px] aspect-[4/5] relative z-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
                         <div class="relative w-full h-full rounded-2xl overflow-hidden bg-slate-900 border border-white/5">
                             <!-- Shayer Portrait -->
-                            <img id="profile-photo" src="DSC00144 (1).JPG" 
+                            <img id="profile-photo" src="shayer.jpg" 
                                  alt="Shayer" 
                                  class="w-full h-full object-cover"
                                  onerror="this.classList.add('hidden'); document.getElementById('portrait-placeholder-svg').classList.remove('hidden');" />
                             
                             <!-- Elegant SVG Portrait Fallback -->
                             <div id="portrait-placeholder-svg" class="hidden w-full h-full bg-[#0a0d14] flex flex-col items-center justify-center space-y-4 p-8 text-center absolute inset-0">
-                                <svg class="w-16 h-16 text-[#CCFF00]/80" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <svg class="w-16 h-16 text-[var(--accent-primary)]" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                                 </svg>
                                 <div>
@@ -319,20 +336,20 @@
                             <!-- Translucent Glass Video Play Cover Overlay -->
                             <div class="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors flex flex-col items-center justify-center space-y-1.5 z-10">
                                 <div class="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-lg transform scale-100 group-hover:scale-110 transition-transform duration-300">
-                                    <svg class="w-4 h-4 text-[#CCFF00] fill-current translate-x-0.5" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-[var(--accent-primary)] fill-current translate-x-0.5" viewBox="0 0 24 24">
                                         <path d="M8 5v14l11-7z" />
                                     </svg>
                                 </div>
-                                <span class="font-mono text-[8px] text-[#CCFF00] tracking-[0.15em] uppercase font-bold">WATCH INTRO</span>
+                                <span class="font-mono text-[8px] text-[var(--accent-primary)] tracking-[0.15em] uppercase font-bold">WATCH INTRO</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- "Know me better" Arrow & Text Indicator -->
                     <div class="absolute bottom-[35%] left-[2%] sm:left-[6%] md:left-[10%] hidden sm:flex flex-col items-end z-30 pointer-events-none transform -translate-x-[75%]">
-                        <span class="font-sans text-xs text-[#CCFF00] tracking-[0.1em] font-light whitespace-nowrap opacity-90 mb-0.5 lowercase italic">know me better</span>
+                        <span class="font-sans text-xs text-[var(--accent-primary)] tracking-[0.1em] font-light whitespace-nowrap opacity-90 mb-0.5 lowercase italic">know me better</span>
                         <!-- Custom loopy hand-drawn style arrow pointing right/down towards the intro video card -->
-                        <svg class="w-16 h-12 text-[#CCFF00] opacity-80" viewBox="0 0 80 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="w-16 h-12 text-[var(--accent-primary)] opacity-80" viewBox="0 0 80 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M10,5 C25,2 32,22 22,22 C12,22 17,8 42,18 C55,23 65,32 70,38" stroke="currentColor" stroke-width="1.8" stroke-dasharray="3 3" stroke-linecap="round"/>
                             <path d="M60,35 L70,38 L66,28" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
@@ -340,22 +357,18 @@
                 </div>
             </section>
 
-            <!-- SECTION: LONG VIDEOS (Horizontal Multi-Grid) -->
+            <!-- SECTION: LONG VIDEOS (Widescreen 2x3 Multi-Grid - Displaying exactly 6 loop tracks) -->
             <section class="space-y-8" id="long-videos-section">
                 <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-white/5 pb-6">
                     <div>
-                        <span class="font-mono text-xs text-[#CCFF00] uppercase tracking-widest">LANDSCAPE MONUMENTS</span>
-                        <h2 class="text-2xl sm:text-3xl font-light text-white mt-1">Long Videos</h2>
+                        <h2 id="section-long-title" class="text-2xl sm:text-3xl font-light text-[var(--accent-primary)] mt-1 drop-shadow-[0_0_20px_rgba(var(--accent-primary-rgb),0.15)]">Long Videos</h2>
                     </div>
-                    <p class="font-mono text-xs text-slate-400 max-w-sm md:text-right font-light">
-                        Simultaneous landscape visual panels. Click any video cell to expand and play on the large stage.
-                    </p>
                 </div>
 
-                <!-- 3x3 Grid of horizontal videos -->
+                <!-- 2x3 Grid of horizontal videos (Widescreen layout cells) -->
                 <div class="premium-card p-4 sm:p-6 rounded-3xl relative overflow-hidden">
-                    <div id="long-videos-container" class="video-grid-hover-effect grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
-                        <!-- Instantiated by JS dynamically -->
+                    <div id="long-videos-container" class="video-grid-hover-effect grid grid-cols-1 md:grid-cols-2 gap-6 w-full animate-fadeIn">
+                        <!-- Instantiated by JS dynamically with exact 6 widescreen modules -->
                     </div>
                 </div>
             </section>
@@ -364,12 +377,8 @@
             <section class="space-y-8" id="shorts-section">
                 <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-white/5 pb-6">
                     <div>
-                        <span class="font-mono text-xs text-[#CCFF00] uppercase tracking-widest">VERTICAL MONUMENTS</span>
-                        <h2 class="text-2xl sm:text-3xl font-light text-white mt-1">Reels / Shorts</h2>
+                        <h2 id="section-shorts-title" class="text-2xl sm:text-3xl font-light text-[var(--accent-primary)] mt-1 drop-shadow-[0_0_20px_rgba(var(--accent-primary-rgb),0.15)]">Reels / Shorts</h2>
                     </div>
-                    <p class="font-mono text-xs text-slate-400 max-w-sm md:text-right font-light">
-                        Multi-channel vertical layout playback. Click to expand and play in vertical cinema focus mode.
-                    </p>
                 </div>
 
                 <!-- 4 Column Vertical Reels -->
@@ -380,255 +389,41 @@
                 </div>
             </section>
 
-            <!-- SECTION: TESTIMONIALS (Vertical Loop Grid) -->
+            <!-- SECTION: TESTIMONIALS (Vertical Loop Grid - Visible side overflows completely secure) -->
             <section class="space-y-8" id="testimonials-section">
                 <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-white/5 pb-6">
                     <div>
-                        <span class="font-mono text-xs text-[#CCFF00] uppercase tracking-widest">FEEDBACK DIRECTORY</span>
-                        <h2 class="text-2xl sm:text-3xl font-light text-white mt-1">What Project Managers, CSMs, and Team Leads say about me</h2>
+                        <h2 id="section-testimonials-title" class="text-2xl sm:text-3xl font-light text-[var(--accent-primary)] mt-1 drop-shadow-[0_0_20px_rgba(var(--accent-primary-rgb),0.15)]">What Project Managers, CSMs, and Team Leads say about me</h2>
                     </div>
-                    <p class="font-mono text-xs text-slate-400 max-w-sm md:text-right font-light">
-                        Looping systems of industry trust. Hover over any single dossier to pause the loop and inspect metrics.
-                    </p>
                 </div>
 
-                <!-- Loop Container (No outer border, borderless premium look) -->
-                <div class="testimonials-container relative overflow-hidden h-[480px] p-6 rounded-3xl bg-[#090b10]/40">
+                <!-- Loop Container (Parent has overflow-hidden, columns use overflow-visible, comfortable margins) -->
+                <div class="testimonials-container relative overflow-hidden h-[480px] px-8 sm:px-12 py-6 rounded-3xl bg-[#090b10]/40">
                     <!-- Top/Bottom Vignette Shadows -->
                     <div class="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-[#06080c] via-[#06080c]/50 to-transparent z-20 pointer-events-none"></div>
                     <div class="absolute bottom-0 inset-x-0 h-20 bg-gradient-to-t from-[#06080c] via-[#06080c]/50 to-transparent z-20 pointer-events-none"></div>
 
-                    <!-- Grid wrapper containing columns -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 h-full relative z-10">
+                    <!-- Grid wrapper containing columns (Overflow visible so scaled cards don't cut off horizontally) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 h-full relative z-10 overflow-visible">
                         
-                        <!-- COLUMN 1 (Active on all sizes) -->
+                        <!-- COLUMN 1 -->
                         <div class="h-full overflow-visible flex flex-col">
-                            <div class="scroll-col-1 flex flex-col gap-4">
-                                <!-- Testimonial 1 -->
-                                <div class="testimonial-card relative p-6 rounded-[28px] bg-slate-900/50 border border-white/5 flex flex-col justify-between space-y-4 h-[220px] shrink-0 group overflow-visible">
-                                    <div class="flex justify-between items-start relative z-10">
-                                        <div class="w-8 h-8 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-[#CCFF00] shadow-[0_0_10px_rgba(204,255,0,0.15)]">
-                                            <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-4.765 2.627-4.765 5.986h5.77v9.864h-11v0zm-12 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-4.77 2.627-4.77 5.986h5.774v9.864h-11v0z"/></svg>
-                                        </div>
-                                    </div>
-                                    <p class="text-slate-300 text-xs font-light italic leading-relaxed relative z-10">
-                                        "Shayer's speed is unmatched. He turned around a complex 3D commercial in 48 hours without compromising on the high-fidelity motion elements. Absolute professional."
-                                    </p>
-                                    <div class="flex items-center space-x-3 relative z-10">
-                                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80" alt="Sarah Jenkins" class="w-8 h-8 rounded-full border border-white/10 object-cover" />
-                                        <div>
-                                            <h4 class="font-mono text-xs font-bold text-white">Sarah Jenkins</h4>
-                                            <p class="font-mono text-[9px] text-[#CCFF00] tracking-wider uppercase">Senior Project Manager // Aether</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Testimonial 2 -->
-                                <div class="testimonial-card relative p-6 rounded-[28px] bg-slate-900/50 border border-white/5 flex flex-col justify-between space-y-4 h-[220px] shrink-0 group overflow-visible">
-                                    <div class="flex justify-between items-start relative z-10">
-                                        <div class="w-8 h-8 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-[#CCFF00] shadow-[0_0_10px_rgba(204,255,0,0.15)]">
-                                            <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-4.765 2.627-4.765 5.986h5.77v9.864h-11v0zm-12 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-4.77 2.627-4.77 5.986h5.774v9.864h-11v0z"/></svg>
-                                        </div>
-                                    </div>
-                                    <p class="text-slate-300 text-xs font-light italic leading-relaxed relative z-10">
-                                        "Working with Shayer on our product rollout was seamless. He understands motion deeply and translates tricky feedback into polished assets."
-                                    </p>
-                                    <div class="flex items-center space-x-3 relative z-10">
-                                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="David Chen" class="w-8 h-8 rounded-full border border-white/10 object-cover" />
-                                        <div>
-                                            <h4 class="font-mono text-xs font-bold text-white">David Chen</h4>
-                                            <p class="font-mono text-[9px] text-[#CCFF00] tracking-wider uppercase">Lead CSM // Monolith</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Duplicated items for infinite loop -->
-                                <div class="testimonial-card relative p-6 rounded-[28px] bg-slate-900/50 border border-white/5 flex flex-col justify-between space-y-4 h-[220px] shrink-0 group overflow-visible">
-                                    <div class="flex justify-between items-start relative z-10">
-                                        <div class="w-8 h-8 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-[#CCFF00] shadow-[0_0_10px_rgba(204,255,0,0.15)]">
-                                            <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-4.765 2.627-4.765 5.986h5.77v9.864h-11v0zm-12 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-4.77 2.627-4.77 5.986h5.774v9.864h-11v0z"/></svg>
-                                        </div>
-                                    </div>
-                                    <p class="text-slate-300 text-xs font-light italic leading-relaxed relative z-10">
-                                        "Shayer's speed is unmatched. He turned around a complex 3D commercial in 48 hours without compromising on the high-fidelity motion elements. Absolute professional."
-                                    </p>
-                                    <div class="flex items-center space-x-3 relative z-10">
-                                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80" alt="Sarah Jenkins" class="w-8 h-8 rounded-full border border-white/10 object-cover" />
-                                        <div>
-                                            <h4 class="font-mono text-xs font-bold text-white">Sarah Jenkins</h4>
-                                            <p class="font-mono text-[9px] text-[#CCFF00] tracking-wider uppercase">Senior Project Manager // Aether</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="testimonial-card relative p-6 rounded-[28px] bg-slate-900/50 border border-white/5 flex flex-col justify-between space-y-4 h-[220px] shrink-0 group overflow-visible">
-                                    <div class="flex justify-between items-start relative z-10">
-                                        <div class="w-8 h-8 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-[#CCFF00] shadow-[0_0_10px_rgba(204,255,0,0.15)]">
-                                            <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-4.765 2.627-4.765 5.986h5.77v9.864h-11v0zm-12 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-4.77 2.627-4.77 5.986h5.774v9.864h-11v0z"/></svg>
-                                        </div>
-                                    </div>
-                                    <p class="text-slate-300 text-xs font-light italic leading-relaxed relative z-10">
-                                        "Working with Shayer on our product rollout was seamless. He understands motion deeply and translates tricky feedback into polished assets."
-                                    </p>
-                                    <div class="flex items-center space-x-3 relative z-10">
-                                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="David Chen" class="w-8 h-8 rounded-full border border-white/10 object-cover" />
-                                        <div>
-                                            <h4 class="font-mono text-xs font-bold text-white">David Chen</h4>
-                                            <p class="font-mono text-[9px] text-[#CCFF00] tracking-wider uppercase">Lead CSM // Monolith</p>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div id="scroll-track-1" class="scroll-col-1 flex flex-col gap-4">
+                                <!-- Loaded dynamically by JS -->
                             </div>
                         </div>
 
-                        <!-- COLUMN 2 (Tablet & Desktop) -->
+                        <!-- COLUMN 2 -->
                         <div class="h-full overflow-visible hidden md:flex flex-col">
-                            <div class="scroll-col-2 flex flex-col gap-4">
-                                <!-- Testimonial 3 -->
-                                <div class="testimonial-card relative p-6 rounded-[28px] bg-slate-900/50 border border-white/5 flex flex-col justify-between space-y-4 h-[220px] shrink-0 group overflow-visible">
-                                    <div class="flex justify-between items-start relative z-10">
-                                        <div class="w-8 h-8 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-[#CCFF00] shadow-[0_0_10px_rgba(204,255,0,0.15)]">
-                                            <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-4.765 2.627-4.765 5.986h5.77v9.864h-11v0zm-12 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-4.77 2.627-4.77 5.986h5.774v9.864h-11v0z"/></svg>
-                                        </div>
-                                    </div>
-                                    <p class="text-slate-300 text-xs font-light italic leading-relaxed relative z-10">
-                                        "He doesn't just edit; he directs. Shayer took our raw footage and arranged a compelling, high-tempo visual masterpiece that boosted our retention."
-                                    </p>
-                                    <div class="flex items-center space-x-3 relative z-10">
-                                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Amara Okafor" class="w-8 h-8 rounded-full border border-white/10 object-cover" />
-                                        <div>
-                                            <h4 class="font-mono text-xs font-bold text-white">Amara Okafor</h4>
-                                            <p class="font-mono text-[9px] text-[#CCFF00] tracking-wider uppercase">Team Lead // Virtue</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Testimonial 4 -->
-                                <div class="testimonial-card relative p-6 rounded-[28px] bg-slate-900/50 border border-white/5 flex flex-col justify-between space-y-4 h-[220px] shrink-0 group overflow-visible">
-                                    <div class="flex justify-between items-start relative z-10">
-                                        <div class="w-8 h-8 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-[#CCFF00] shadow-[0_0_10px_rgba(204,255,0,0.15)]">
-                                            <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-4.765 2.627-4.765 5.986h5.77v9.864h-11v0zm-12 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-4.77 2.627-4.77 5.986h5.774v9.864h-11v0z"/></svg>
-                                        </div>
-                                    </div>
-                                    <p class="text-slate-300 text-xs font-light italic leading-relaxed relative z-10">
-                                        "Shayer is our go-to editor for high-stakes pitches. His motion design is sharp and has that premium modern aesthetic that our team appreciates."
-                                    </p>
-                                    <div class="flex items-center space-x-3 relative z-10">
-                                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80" alt="Liam Carter" class="w-8 h-8 rounded-full border border-white/10 object-cover" />
-                                        <div>
-                                            <h4 class="font-mono text-xs font-bold text-white">Liam Carter</h4>
-                                            <p class="font-mono text-[9px] text-[#CCFF00] tracking-wider uppercase">Executive Producer // Kinetic</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Duplicated items for infinite loop -->
-                                <div class="testimonial-card relative p-6 rounded-[28px] bg-slate-900/50 border border-white/5 flex flex-col justify-between space-y-4 h-[220px] shrink-0 group overflow-visible">
-                                    <div class="flex justify-between items-start relative z-10">
-                                        <div class="w-8 h-8 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-[#CCFF00] shadow-[0_0_10px_rgba(204,255,0,0.15)]">
-                                            <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-4.765 2.627-4.765 5.986h5.77v9.864h-11v0zm-12 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-4.77 2.627-4.77 5.986h5.774v9.864h-11v0z"/></svg>
-                                        </div>
-                                    </div>
-                                    <p class="text-slate-300 text-xs font-light italic leading-relaxed relative z-10">
-                                        "He doesn't just edit; he directs. Shayer took our raw footage and arranged a compelling, high-tempo visual masterpiece that boosted our retention."
-                                    </p>
-                                    <div class="flex items-center space-x-3 relative z-10">
-                                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Amara Okafor" class="w-8 h-8 rounded-full border border-white/10 object-cover" />
-                                        <div>
-                                            <h4 class="font-mono text-xs font-bold text-white">Amara Okafor</h4>
-                                            <p class="font-mono text-[9px] text-[#CCFF00] tracking-wider uppercase">Team Lead // Virtue</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="testimonial-card relative p-6 rounded-[28px] bg-slate-900/50 border border-white/5 flex flex-col justify-between space-y-4 h-[220px] shrink-0 group overflow-visible">
-                                    <div class="flex justify-between items-start relative z-10">
-                                        <div class="w-8 h-8 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-[#CCFF00] shadow-[0_0_10px_rgba(204,255,0,0.15)]">
-                                            <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-4.765 2.627-4.765 5.986h5.77v9.864h-11v0zm-12 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-4.77 2.627-4.77 5.986h5.774v9.864h-11v0z"/></svg>
-                                        </div>
-                                    </div>
-                                    <p class="text-slate-300 text-xs font-light italic leading-relaxed relative z-10">
-                                        "Shayer is our go-to editor for high-stakes pitches. His motion design is sharp and has that premium modern aesthetic that our team appreciates."
-                                    </p>
-                                    <div class="flex items-center space-x-3 relative z-10">
-                                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80" alt="Liam Carter" class="w-8 h-8 rounded-full border border-white/10 object-cover" />
-                                        <div>
-                                            <h4 class="font-mono text-xs font-bold text-white">Liam Carter</h4>
-                                            <p class="font-mono text-[9px] text-[#CCFF00] tracking-wider uppercase">Executive Producer // Kinetic</p>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div id="scroll-track-2" class="scroll-col-2 flex flex-col gap-4">
+                                <!-- Loaded dynamically by JS -->
                             </div>
                         </div>
 
-                        <!-- COLUMN 3 (Desktop Only) -->
+                        <!-- COLUMN 3 -->
                         <div class="h-full overflow-visible hidden lg:flex flex-col">
-                            <div class="scroll-col-3 flex flex-col gap-4">
-                                <!-- Testimonial 5 -->
-                                <div class="testimonial-card relative p-6 rounded-[28px] bg-slate-900/50 border border-white/5 flex flex-col justify-between space-y-4 h-[220px] shrink-0 group overflow-visible">
-                                    <div class="flex justify-between items-start relative z-10">
-                                        <div class="w-8 h-8 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-[#CCFF00] shadow-[0_0_10px_rgba(204,255,0,0.15)]">
-                                            <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-4.765 2.627-4.765 5.986h5.77v9.864h-11v0zm-12 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-4.77 2.627-4.77 5.986h5.774v9.864h-11v0z"/></svg>
-                                        </div>
-                                    </div>
-                                    <p class="text-slate-300 text-xs font-light italic leading-relaxed relative z-10">
-                                        "Feedback loops skyrocketed once Shayer joined our production team. His communication is fast, clear, and turnaround times are remarkable."
-                                    </p>
-                                    <div class="flex items-center space-x-3 relative z-10">
-                                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&q=80" alt="Elena Rostova" class="w-8 h-8 rounded-full border border-white/10 object-cover" />
-                                        <div>
-                                            <h4 class="font-mono text-xs font-bold text-white">Elena Rostova</h4>
-                                            <p class="font-mono text-[9px] text-[#CCFF00] tracking-wider uppercase">CSM Director // Phantom</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Testimonial 6 -->
-                                <div class="testimonial-card relative p-6 rounded-[28px] bg-slate-900/50 border border-white/5 flex flex-col justify-between space-y-4 h-[220px] shrink-0 group overflow-visible">
-                                    <div class="flex justify-between items-start relative z-10">
-                                        <div class="w-8 h-8 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-[#CCFF00] shadow-[0_0_10px_rgba(204,255,0,0.15)]">
-                                            <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-4.765 2.627-4.765 5.986h5.77v9.864h-11v0zm-12 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-4.77 2.627-4.77 5.986h5.774v9.864h-11v0z"/></svg>
-                                        </div>
-                                    </div>
-                                    <p class="text-slate-300 text-xs font-light italic leading-relaxed relative z-10">
-                                        "Shayer brings a rare blend of technical animation awareness and pure storytelling instinct. The reels he cut for our team perform exceptionally well."
-                                    </p>
-                                    <div class="flex items-center space-x-3 relative z-10">
-                                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=120&q=80" alt="Marcus Vance" class="w-8 h-8 rounded-full border border-white/10 object-cover" />
-                                        <div>
-                                            <h4 class="font-mono text-xs font-bold text-white">Marcus Vance</h4>
-                                            <p class="font-mono text-[9px] text-[#CCFF00] tracking-wider uppercase">Product Lead // Eight Co</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Duplicated items for infinite loop -->
-                                <div class="testimonial-card relative p-6 rounded-[28px] bg-slate-900/50 border border-white/5 flex flex-col justify-between space-y-4 h-[220px] shrink-0 group overflow-visible">
-                                    <div class="flex justify-between items-start relative z-10">
-                                        <div class="w-8 h-8 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-[#CCFF00] shadow-[0_0_10px_rgba(204,255,0,0.15)]">
-                                            <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-4.765 2.627-4.765 5.986h5.77v9.864h-11v0zm-12 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-4.77 2.627-4.77 5.986h5.774v9.864h-11v0z"/></svg>
-                                        </div>
-                                    </div>
-                                    <p class="text-slate-300 text-xs font-light italic leading-relaxed relative z-10">
-                                        "Feedback loops skyrocketed once Shayer joined our production team. His communication is fast, clear, and turnaround times are remarkable."
-                                    </p>
-                                    <div class="flex items-center space-x-3 relative z-10">
-                                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&q=80" alt="Elena Rostova" class="w-8 h-8 rounded-full border border-white/10 object-cover" />
-                                        <div>
-                                            <h4 class="font-mono text-xs font-bold text-white">Elena Rostova</h4>
-                                            <p class="font-mono text-[9px] text-[#CCFF00] tracking-wider uppercase">CSM Director // Phantom</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="testimonial-card relative p-6 rounded-[28px] bg-slate-900/50 border border-white/5 flex flex-col justify-between space-y-4 h-[220px] shrink-0 group overflow-visible">
-                                    <div class="flex justify-between items-start relative z-10">
-                                        <div class="w-8 h-8 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-[#CCFF00] shadow-[0_0_10px_rgba(204,255,0,0.15)]">
-                                            <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-4.765 2.627-4.765 5.986h5.77v9.864h-11v0zm-12 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-4.77 2.627-4.77 5.986h5.774v9.864h-11v0z"/></svg>
-                                        </div>
-                                    </div>
-                                    <p class="text-slate-300 text-xs font-light italic leading-relaxed relative z-10">
-                                        "Shayer brings a rare blend of technical animation awareness and pure storytelling instinct. The reels he cut for our team perform exceptionally well."
-                                    </p>
-                                    <div class="flex items-center space-x-3 relative z-10">
-                                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=120&q=80" alt="Marcus Vance" class="w-8 h-8 rounded-full border border-white/10 object-cover" />
-                                        <div>
-                                            <h4 class="font-mono text-xs font-bold text-white">Marcus Vance</h4>
-                                            <p class="font-mono text-[9px] text-[#CCFF00] tracking-wider uppercase">Product Lead // Eight Co</p>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div id="scroll-track-3" class="scroll-col-3 flex flex-col gap-4">
+                                <!-- Loaded dynamically by JS -->
                             </div>
                         </div>
 
@@ -636,44 +431,43 @@
                 </div>
             </section>
 
-            <!-- SECTION: COLLABORATIVE BRANDS MONOGRAM CAROUSEL (Customize later) -->
+            <!-- SECTION: COLLABORATIVE BRANDS MONOGRAM CAROUSEL -->
             <section class="space-y-4 pt-4 overflow-hidden relative">
                 <div class="border-t border-white/5 pt-12">
-                    <span class="font-mono text-[10px] text-slate-500 uppercase tracking-[0.2em] block text-center mb-8">PARTNERED CREATIVE LABS & BRANDS</span>
                     <div class="relative w-full overflow-hidden py-6 bg-white/[0.01] border-y border-white/[0.03]">
                         <div class="marquee-container whitespace-nowrap">
                             <!-- Block 1 -->
                             <div class="inline-flex items-center space-x-12">
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[#CCFF00] transition-colors cursor-crosshair px-6">AETHER</span>
+                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-crosshair px-6">AETHER</span>
                                 <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[#CCFF00] transition-colors cursor-crosshair px-6">MONOLITH</span>
+                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-crosshair px-6">MONOLITH</span>
                                 <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[#CCFF00] transition-colors cursor-crosshair px-6">VIRTUE</span>
+                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-crosshair px-6">VIRTUE</span>
                                 <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[#CCFF00] transition-colors cursor-crosshair px-6">KINETIC</span>
+                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-crosshair px-6">KINETIC</span>
                                 <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[#CCFF00] transition-colors cursor-crosshair px-6">NEURAL_STUDIOS</span>
+                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-crosshair px-6">NEURAL_STUDIOS</span>
                                 <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[#CCFF00] transition-colors cursor-crosshair px-6">EIGHT_CO</span>
+                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-crosshair px-6">EIGHT_CO</span>
                                 <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[#CCFF00] transition-colors cursor-crosshair px-6">PHANTOM</span>
+                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-crosshair px-6">PHANTOM</span>
                                 <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
                             </div>
-                            <!-- Block 2 (Seamless replication) -->
+                            <!-- Block 2 -->
                             <div class="inline-flex items-center space-x-12">
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[#CCFF00] transition-colors cursor-crosshair px-6">AETHER</span>
+                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-crosshair px-6">AETHER</span>
                                 <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[#CCFF00] transition-colors cursor-crosshair px-6">MONOLITH</span>
+                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-crosshair px-6">MONOLITH</span>
                                 <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[#CCFF00] transition-colors cursor-crosshair px-6">VIRTUE</span>
+                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-crosshair px-6">VIRTUE</span>
                                 <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[#CCFF00] transition-colors cursor-crosshair px-6">KINETIC</span>
+                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-crosshair px-6">KINETIC</span>
                                 <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[#CCFF00] transition-colors cursor-crosshair px-6">NEURAL_STUDIOS</span>
+                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-crosshair px-6">NEURAL_STUDIOS</span>
                                 <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[#CCFF00] transition-colors cursor-crosshair px-6">EIGHT_CO</span>
+                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-crosshair px-6">EIGHT_CO</span>
                                 <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[#CCFF00] transition-colors cursor-crosshair px-6">PHANTOM</span>
+                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-crosshair px-6">PHANTOM</span>
                                 <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
                             </div>
                         </div>
@@ -684,26 +478,25 @@
             <!-- SECTION: INLINE CONTACT / EMAIL -->
             <section class="space-y-8" id="contact-section">
                 <div class="flex flex-col border-b border-white/5 pb-6">
-                    <span class="font-mono text-xs text-[#CCFF00] uppercase tracking-widest">INQUIRE DIRECT</span>
-                    <h2 class="text-2xl sm:text-3xl font-light text-white mt-1">Get in Touch</h2>
+                    <h2 id="section-contact-title" class="text-2xl sm:text-3xl font-light text-[var(--accent-primary)] mt-1 drop-shadow-[0_0_20px_rgba(var(--accent-primary-rgb),0.15)]">Get in Touch</h2>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                     <!-- Left Copy / Details -->
                     <div class="lg:col-span-5 space-y-6">
-                        <p class="text-slate-400 text-sm leading-relaxed font-light">
+                        <p id="contact-desc" class="text-slate-400 text-sm leading-relaxed font-light">
                             If you're seeking customized video setups, interactive media integrations, or looking to discuss creative direction for an upcoming product launch:
                         </p>
                         
                         <div class="space-y-4">
-                            <a href="mailto:hello.shayer@gmail.com" class="group flex items-center space-x-4 p-4 rounded-2xl bg-white/[0.01] border border-white/5 hover:border-[#CCFF00]/40 transition-all">
+                            <a href="mailto:hello.shayer@gmail.com" class="group flex items-center space-x-4 p-4 rounded-2xl bg-white/[0.01] border border-white/5 hover:border-[#CCFF00]/40 transition-all font-mono text-xs select-none relative z-30 group cursor-none">
                                 <div class="w-10 h-10 rounded-full bg-white/[0.02] flex items-center justify-center text-slate-400 group-hover:text-[#CCFF00] transition-colors">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                                     </svg>
                                 </div>
                                 <div>
-                                    <span class="block font-mono text-sm group-hover:text-[#CCFF00] transition-colors">hello.shayer@gmail.com</span>
+                                    <span class="block font-mono text-sm text-slate-200">hello.shayer@gmail.com</span>
                                 </div>
                             </a>
 
@@ -715,8 +508,7 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <span class="block font-mono text-[9px] text-slate-500 uppercase tracking-widest">OFFICE DIRECT</span>
-                                    <span class="font-mono text-sm text-slate-200">Dhaka, Bangladesh</span>
+                                    <span class="block font-mono text-sm text-slate-200">Dhaka, Bangladesh</span>
                                 </div>
                             </div>
                         </div>
@@ -752,9 +544,13 @@
         <!-- FOOTER -->
         <footer class="w-full py-12 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center text-[10px] font-mono text-slate-500 gap-4">
             <span>© 2026 SHAYER // CREATIVE MOTION ARCHIVE</span>
-            <div class="flex items-center space-x-6">
+            <div class="flex items-center space-x-6 relative">
                 <span>ALL WORK ENGLISH ACCESSIBLE</span>
-                <span class="w-2 h-2 rounded-full bg-[#CCFF00]"></span>
+                <!-- Secret Admin trigger secretly anchored to a wider click-friendly badge in bottom-right of footer -->
+                <div id="admin-trigger-badge" onclick="handleAdminTrigger()" class="flex items-center space-x-2 bg-white/[0.02] border border-white/5 px-3 py-1.5 rounded-md hover:border-[var(--accent-primary)]/20 hover:bg-[var(--accent-primary)]/[0.02] transition-all select-none relative z-30 group cursor-none" title="System Status badge">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] group-hover:animate-ping"></span>
+                    <span class="font-mono text-[9px] text-slate-400 group-hover:text-white transition-colors">NODE: SHY_08 // ACTIVE</span>
+                </div>
             </div>
         </footer>
 
@@ -783,7 +579,7 @@
         <!-- Trigger Button -->
         <button onclick="toggleFabMenu()" id="fab-trigger" class="flex items-center space-x-2 bg-[#CCFF00] text-black px-6 py-4 rounded-full shadow-[0_0_25px_rgba(204,255,0,0.45)] hover:shadow-[0_0_35px_rgba(204,255,0,0.7)] hover:scale-105 transition-all duration-300 z-50 group font-mono text-xs font-bold uppercase tracking-wider">
             <span id="fab-icon-container" class="transition-transform duration-300">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
                 </svg>
             </span>
@@ -791,8 +587,26 @@
         </button>
     </div>
 
-    <!-- CONFIGURATION DRAWER -->
-    <div id="drawer-panel" class="fixed top-0 right-0 h-full w-full max-w-md bg-[#090b0e] border-l border-white/5 z-50 transform translate-x-full drawer-transition flex flex-col shadow-[0_0_80px_rgba(0,0,0,0.8)]">
+    <!-- SECRET ADMIN PIN CONFIRMATION MODAL (Cancel/Confirm buttons removed, closing on overlay tap integrated) -->
+    <div id="pin-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+        <div class="premium-card max-w-sm w-full p-8 rounded-3xl border border-white/10 text-center space-y-6 transform scale-95 transition-transform duration-300" id="pin-modal-content">
+            <div class="w-12 h-12 bg-white/5 border border-[var(--accent-primary)]/30 rounded-full flex items-center justify-center mx-auto text-[var(--accent-primary)]">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                </svg>
+            </div>
+            <div>
+                <h3 class="font-mono text-sm font-bold text-white tracking-widest uppercase">ENTER SYSTEM PIN</h3>
+                <p class="font-mono text-[10px] text-slate-500 mt-1">AUTHORIZATION REQUIRED</p>
+            </div>
+            <div class="relative">
+                <input type="password" id="admin-pin-field" oninput="checkPinLength(this)" class="w-full text-center bg-white/[0.03] text-[var(--accent-primary)] font-mono text-xl tracking-[0.4em] py-3 rounded-xl border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none" placeholder="••••" maxlength="4">
+            </div>
+        </div>
+    </div>
+
+    <!-- CONFIGURATION DRAWER (MANAGE ACTIVE VIDEOS, TESTIMONIALS & COPY) -->
+    <div id="drawer-panel" class="fixed top-0 right-0 h-full w-full max-w-md bg-[#090b0e] border-l border-white/5 z-50 transform translate-x-full drawer-transition flex flex-col shadow-[0_0_80px_rgba(0,0,0,0.8)] text-slate-100">
         <!-- Drawer Header -->
         <div class="p-8 border-b border-white/5 flex justify-between items-center">
             <div>
@@ -808,36 +622,107 @@
 
         <!-- Scrollable settings form -->
         <div class="flex-grow overflow-y-auto p-8 space-y-8">
-            <!-- Floating Contact Hub settings -->
-            <div class="space-y-4">
-                <h4 class="font-mono text-xs text-[#CCFF00] font-bold uppercase tracking-wider">CONTACT & INTRO TELEMETRY</h4>
+            
+            <!-- SECTION 1: IDENTITY & STYLING -->
+            <div class="space-y-4 border-b border-white/5 pb-6">
+                <h4 class="font-mono text-xs text-[var(--accent-primary)] font-bold uppercase tracking-wider">IDENTITY & STYLING</h4>
                 <div class="space-y-3">
-                    <div class="space-y-1.5">
-                        <label class="block font-mono text-[10px] text-slate-500 uppercase">WhatsApp Number (With Country Code)</label>
-                        <input type="text" id="input-whatsapp-num" class="w-full bg-white/[0.02] text-white font-mono text-xs px-3 py-2.5 rounded-lg border border-white/10 focus:border-[#CCFF00] focus:outline-none" placeholder="e.g. 8801700000000">
+                    <div class="space-y-1">
+                        <label class="block font-mono text-[9px] text-slate-500 uppercase">Logo Brand Tag</label>
+                        <input type="text" id="input-brand-name" class="w-full bg-white/[0.02] text-white font-mono text-xs px-3 py-2.5 rounded-lg border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none">
                     </div>
-                    <div class="space-y-1.5">
-                        <label class="block font-mono text-[10px] text-slate-500 uppercase">Intro Video YouTube ID</label>
-                        <input type="text" id="input-intro-video-id" class="w-full bg-white/[0.02] text-white font-mono text-xs px-3 py-2.5 rounded-lg border border-white/10 focus:border-[#CCFF00] focus:outline-none" placeholder="e.g. y6120Q5iUAc">
+                    <div class="space-y-1">
+                        <label class="block font-mono text-[9px] text-slate-500 uppercase">Profile Photo URL</label>
+                        <input type="text" id="input-profile-photo-url" class="w-full bg-white/[0.02] text-white font-mono text-xs px-3 py-2.5 rounded-lg border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none" placeholder="e.g. shayer.jpg or raw.githubusercontent path">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block font-mono text-[9px] text-slate-500 uppercase">WhatsApp Connection Code (Include Country Code)</label>
+                        <input type="text" id="input-whatsapp-num" class="w-full bg-white/[0.02] text-white font-mono text-xs px-3 py-2.5 rounded-lg border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block font-mono text-[9px] text-slate-500 uppercase">Intro Video YouTube ID</label>
+                        <input type="text" id="input-intro-video-id" class="w-full bg-white/[0.02] text-white font-mono text-xs px-3 py-2.5 rounded-lg border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none">
+                    </div>
+                    <div class="space-y-1.5 pt-2">
+                        <label class="block font-mono text-[9px] text-slate-500 uppercase">Primary Accent Theme Color</label>
+                        <div class="flex items-center space-x-2">
+                            <input type="color" id="input-theme-color-picker" class="w-10 h-10 rounded border border-white/10 bg-transparent cursor-none">
+                            <input type="text" id="input-theme-color-hex" class="flex-grow bg-white/[0.02] text-white font-mono text-xs px-3 py-2.5 rounded-lg border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none" placeholder="#CCFF00" maxlength="7">
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Long Videos Section Inputs -->
-            <div class="space-y-4">
-                <h4 class="font-mono text-xs text-[#CCFF00] font-bold uppercase tracking-wider">LONG VIDEOS (9 IDS)</h4>
+            <!-- SECTION 2: CV PDF CONFIGURATION -->
+            <div class="space-y-4 border-b border-white/5 pb-6">
+                <h4 class="font-mono text-xs text-[var(--accent-primary)] font-bold uppercase tracking-wider">CV PDF CONFIGURATION</h4>
+                <div class="space-y-3">
+                    <div class="space-y-1">
+                        <label class="block font-mono text-[9px] text-slate-500 uppercase">CV File URL / Relative Path</label>
+                        <input type="text" id="input-cv-url" class="w-full bg-white/[0.02] text-[#f1f5f9] font-mono text-xs px-3 py-2.5 rounded-lg border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none" placeholder="e.g. resume.pdf or raw.githubusercontent path">
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3: TYPOGRAPHY & COPY -->
+            <div class="space-y-4 border-b border-white/5 pb-6">
+                <h4 class="font-mono text-xs text-[var(--accent-primary)] font-bold uppercase tracking-wider">TYPOGRAPHY & COPY</h4>
+                <div class="space-y-3">
+                    <div class="space-y-1">
+                        <label class="block font-mono text-[9px] text-slate-500 uppercase">Hero Main Heading</label>
+                        <textarea id="input-hero-title" rows="3" class="w-full bg-white/[0.02] text-white font-mono text-xs p-3 rounded-lg border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none resize-none"></textarea>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block font-mono text-[9px] text-slate-500 uppercase">Hero Paragraph Bio</label>
+                        <textarea id="input-hero-desc" rows="4" class="w-full bg-white/[0.02] text-white font-mono text-xs p-3 rounded-lg border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none resize-none"></textarea>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block font-mono text-[9px] text-slate-500 uppercase">Long Videos Title</label>
+                        <input type="text" id="input-long-title" class="w-full bg-white/[0.02] text-white font-mono text-xs px-3 py-2.5 rounded-lg border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block font-mono text-[9px] text-slate-500 uppercase">Short Videos Title</label>
+                        <input type="text" id="input-short-title" class="w-full bg-white/[0.02] text-white font-mono text-xs px-3 py-2.5 rounded-lg border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block font-mono text-[9px] text-slate-500 uppercase">Testimonials Section Title</label>
+                        <textarea id="input-testimonials-title" rows="2" class="w-full bg-white/[0.02] text-white font-mono text-xs p-3 rounded-lg border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none resize-none"></textarea>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block font-mono text-[9px] text-slate-500 uppercase">Get In Touch Title</label>
+                        <input type="text" id="input-contact-title" class="w-full bg-white/[0.02] text-white font-mono text-xs px-3 py-2.5 rounded-lg border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block font-mono text-[9px] text-slate-500 uppercase">Get In Touch Description</label>
+                        <textarea id="input-contact-desc" rows="3" class="w-full bg-white/[0.02] text-white font-mono text-xs p-3 rounded-lg border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none resize-none"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 4: TESTIMONIALS COPY CONFIGURATIONS -->
+            <div class="space-y-4 border-b border-white/5 pb-6">
+                <h4 class="font-mono text-xs text-[var(--accent-primary)] font-bold uppercase tracking-wider">TESTIMONIALS CARDS (6 SLOTS)</h4>
+                <div id="drawer-testimonials-inputs" class="space-y-4">
+                    <!-- Dynamic fields instantiated by JS -->
+                </div>
+            </div>
+
+            <!-- SECTION 5: PLAYLIST (LONG VIDEOS) -->
+            <div class="space-y-4 border-b border-white/5 pb-6">
+                <h4 class="font-mono text-xs text-[var(--accent-primary)] font-bold uppercase tracking-wider">LONG VIDEOS PLAYLIST (6 IDS - 2x3 GRID)</h4>
                 <div id="drawer-long-inputs" class="space-y-3">
                     <!-- Dynamic fields -->
                 </div>
             </div>
 
-            <!-- Reels Videos Section Inputs -->
+            <!-- SECTION 6: PLAYLIST (REELS / SHORTS) -->
             <div class="space-y-4">
-                <h4 class="font-mono text-xs text-[#CCFF00] font-bold uppercase tracking-wider">REELS / SHORTS (4 IDS)</h4>
+                <h4 class="font-mono text-xs text-[var(--accent-primary)] font-bold uppercase tracking-wider">REELS / SHORTS (4 IDS)</h4>
                 <div id="drawer-short-inputs" class="space-y-3">
                     <!-- Dynamic fields -->
                 </div>
             </div>
+
         </div>
 
         <!-- Actions -->
@@ -845,7 +730,7 @@
             <button onclick="resetGridToDefault()" class="py-3.5 px-2 rounded-full bg-transparent border border-white/10 hover:border-white/30 text-slate-300 font-mono text-xs transition-all">
                 RESET TO DEFAULTS
             </button>
-            <button onclick="saveGridConfig()" class="py-3.5 px-2 rounded-full bg-[#CCFF00] text-black hover:bg-white font-mono text-xs font-bold transition-all">
+            <button onclick="saveGridConfig()" class="py-3.5 px-2 rounded-full bg-[var(--accent-primary)] text-black hover:bg-white font-mono text-xs font-bold transition-all">
                 COMPILE LINKS
             </button>
         </div>
@@ -860,7 +745,7 @@
             </svg>
         </button>
         <!-- Dynamic Frame Area -->
-        <div class="w-full max-w-4xl transition-transform duration-300 transform scale-95" id="lightbox-content" onclick="event.stopPropagation()">
+        <div class="w-full transition-transform duration-300 transform scale-95" id="lightbox-content" onclick="event.stopPropagation()">
             <!-- Loaded frame here -->
         </div>
     </div>
@@ -870,17 +755,14 @@
 
     <!-- MAIN CONTROL & RENDERING MODULE -->
     <script>
-        // Default Horizontal Loops
+        // Default Horizontal Loops (Configured exactly to 6 items to display a clean 2x3 grid)
         const DEFAULT_LONG_VIDS = [
             "q76bMs-NwRk", // Cyberpunk alley
             "H5nE_u5mKTo", // Cyber city aerial
             "y6120Q5iUAc", // Retro sunset
             "j_gN3Iq02Yg", // Neon spaceship corridor
             "b794E7Zf788", // Futuristic telemetry interface
-            "S160_B15w_M", // Vapor grid matrix
-            "FzYv_A6oG3c", // Cyber punk visual loop
-            "K6T_Cj_eSyk", // Reactor core
-            "u9C_f7V_8F8"  // Space tunnel
+            "S160_B15w_M"  // Vapor grid matrix
         ];
 
         // Default Vertical Loops
@@ -891,15 +773,116 @@
             "u9C_f7V_8F8"  // Hyper space tunnel
         ];
 
+        // Default Testimonials Dataset
+        const DEFAULT_TESTIMONIALS = [
+            {
+                quote: "Shayer's speed is unmatched. He turned around a complex 3D commercial in 48 hours without compromising on the high-fidelity motion elements. Absolute professional.",
+                author: "Sarah Jenkins",
+                role: "Senior Project Manager // Aether",
+                avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80"
+            },
+            {
+                quote: "Working with Shayer on our product rollout was seamless. He understands motion deeply and translates tricky feedback into polished assets.",
+                author: "David Chen",
+                role: "Lead CSM // Monolith",
+                avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80"
+            },
+            {
+                quote: "He doesn't just edit; he directs. Shayer took our raw footage and arranged a compelling, high-tempo visual masterpiece that boosted our retention.",
+                author: "Amara Okafor",
+                role: "Team Lead // Virtue",
+                avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80"
+            },
+            {
+                quote: "Shayer is our go-to editor for high-stakes pitches. His motion design is sharp and has that premium modern aesthetic that our team appreciates.",
+                author: "Liam Carter",
+                role: "Executive Producer // Kinetic",
+                avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80"
+            },
+            {
+                quote: "Feedback loops skyrocketed once Shayer joined our production team. His communication is fast, clear, and turnaround times are remarkable.",
+                author: "Elena Rostova",
+                role: "CSM Director // Phantom",
+                avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&q=80"
+            },
+            {
+                quote: "Shayer brings a rare blend of technical animation awareness and pure storytelling instinct. The reels he cut for our team perform exceptionally well.",
+                author: "Marcus Vance",
+                role: "Product Lead // Eight Co",
+                avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=120&q=80"
+            }
+        ];
+
         // Default WhatsApp Configuration
         const DEFAULT_WHATSAPP = "8801700000000";
         const DEFAULT_INTRO_VIDEO = "y6120Q5iUAc"; // Loop retro sunset as default intro
+        const DEFAULT_PROFILE_PHOTO = "shayer.jpg"; // Default fallback photo name
+        const DEFAULT_CV_URL = "resume.pdf"; // Default fallback relative PDF path
+
+        // Default Text Copy Content
+        const DEFAULT_BRAND_NAME = "SHAYER";
+        const DEFAULT_HERO_TITLE = "Hi, I am Shayer. I have been editing videos and creating motion design for 4 years.";
+        const DEFAULT_HERO_DESC = "Combining pacing, composition, and high-tempo edits to build unforgettable digital stories. Specialized in crafting bespoke frames for both social, short-form reels, and long-form cinematic layouts.";
+        const DEFAULT_LONG_TITLE = "Long Videos";
+        const DEFAULT_SHORT_TITLE = "Reels / Shorts";
+        const DEFAULT_TESTIMONIALS_TITLE = "What Project Managers, CSMs, and Team Leads say about me";
+        const DEFAULT_CONTACT_TITLE = "Get in Touch";
+        const DEFAULT_CONTACT_DESC = "If you're seeking customized video setups, interactive media integrations, or looking to discuss creative direction for an upcoming product launch:";
 
         let activeLongVideos = [];
         let activeShortVideos = [];
+        let activeTestimonials = [];
         let activeWhatsAppNumber = DEFAULT_WHATSAPP;
         let activeIntroVideo = DEFAULT_INTRO_VIDEO;
+        let activeProfilePhoto = DEFAULT_PROFILE_PHOTO;
+        let activeCvUrl = DEFAULT_CV_URL;
         let logoClickCount = 0;
+
+        // Custom Triangle Cursor logic
+        const customCursor = document.getElementById("custom-cursor");
+        let cursorX = 0;
+        let cursorY = 0;
+        let targetX = 0;
+        let targetY = 0;
+        const cursorSpeed = 0.2; // Interpolation speed for smooth lagging trace
+
+        window.addEventListener("mousemove", (e) => {
+            targetX = e.clientX;
+            targetY = e.clientY;
+        });
+
+        function updateCursorPosition() {
+            // Smooth easing
+            cursorX += (targetX - cursorX) * cursorSpeed;
+            cursorY += (targetY - cursorY) * cursorSpeed;
+            if (customCursor) {
+                customCursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0) translate(-50%, -50%)`;
+            }
+            requestAnimationFrame(updateCursorPosition);
+        }
+        requestAnimationFrame(updateCursorPosition);
+
+        // Helper to convert hex to RGB
+        function hexToRgb(hex) {
+            const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+            hex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b);
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        // Apply theme color customizer dynamically
+        function applyThemeColor(hex) {
+            const rgb = hexToRgb(hex);
+            if (rgb) {
+                const root = document.documentElement;
+                root.style.setProperty('--accent-primary', hex);
+                root.style.setProperty('--accent-primary-rgb', `${rgb.r}, ${rgb.g}, ${rgb.b}`);
+            }
+        }
 
         // Load configuration datasets
         function loadConfigurations() {
@@ -907,6 +890,10 @@
             const storedShort = localStorage.getItem("kae_short_videos");
             const storedWhatsApp = localStorage.getItem("kae_whatsapp_number");
             const storedIntro = localStorage.getItem("kae_intro_video");
+            const storedThemeHex = localStorage.getItem("kae_theme_color") || "#CCFF00";
+            const storedPhoto = localStorage.getItem("kae_profile_photo") || DEFAULT_PROFILE_PHOTO;
+            const storedTestimonials = localStorage.getItem("kae_testimonials");
+            const storedCvUrl = localStorage.getItem("kae_cv_url") || DEFAULT_CV_URL;
 
             if (storedLong) {
                 try { activeLongVideos = JSON.parse(storedLong); } catch(e) { activeLongVideos = [...DEFAULT_LONG_VIDS]; }
@@ -932,25 +919,35 @@
                 activeIntroVideo = DEFAULT_INTRO_VIDEO;
             }
 
-            updateWhatsAppButtonLink();
-        }
-
-        // Stealth Admin Handler: Clicking your logo 5 times opens the drawer
-        function handleAdminTrigger() {
-            logoClickCount++;
-            if (logoClickCount === 1) {
-                // reset count if no successive clicks happen in 3 seconds
-                setTimeout(() => { logoClickCount = 0; }, 3000);
-            }
-            
-            if (logoClickCount >= 5) {
-                logoClickCount = 0;
-                toggleDrawer(true);
-                showToast("Admin session unlocked", "success");
+            if (storedTestimonials) {
+                try { activeTestimonials = JSON.parse(storedTestimonials); } catch(e) { activeTestimonials = [...DEFAULT_TESTIMONIALS]; }
             } else {
-                // Subtle hint for Shayer (can be ignored by public)
-                showToast(`Unlock progress: ${logoClickCount}/5`, "info");
+                activeTestimonials = [...DEFAULT_TESTIMONIALS];
             }
+
+            activeProfilePhoto = storedPhoto;
+            activeCvUrl = storedCvUrl;
+
+            // Apply profile image source
+            const profileImg = document.getElementById("profile-photo");
+            if (profileImg) {
+                profileImg.src = activeProfilePhoto;
+            }
+
+            // Apply custom theme hex color dynamically on startup
+            applyThemeColor(storedThemeHex);
+
+            // Load and apply Text variables
+            document.getElementById("logo-branding").innerText = localStorage.getItem("kae_text_brand") || DEFAULT_BRAND_NAME;
+            document.getElementById("hero-title").innerText = localStorage.getItem("kae_text_hero_title") || DEFAULT_HERO_TITLE;
+            document.getElementById("hero-desc").innerText = localStorage.getItem("kae_text_hero_desc") || DEFAULT_HERO_DESC;
+            document.getElementById("section-long-title").innerText = localStorage.getItem("kae_text_long_title") || DEFAULT_LONG_TITLE;
+            document.getElementById("section-shorts-title").innerText = localStorage.getItem("kae_text_short_title") || DEFAULT_SHORT_TITLE;
+            document.getElementById("section-testimonials-title").innerText = localStorage.getItem("kae_text_test_title") || DEFAULT_TESTIMONIALS_TITLE;
+            document.getElementById("section-contact-title").innerText = localStorage.getItem("kae_text_contact_title") || DEFAULT_CONTACT_TITLE;
+            document.getElementById("contact-desc").innerText = localStorage.getItem("kae_text_contact_desc") || DEFAULT_CONTACT_DESC;
+
+            updateWhatsAppButtonLink();
         }
 
         // Apply loaded/configured WhatsApp deep link to floating badge
@@ -960,64 +957,86 @@
             btn.href = `https://wa.me/${activeWhatsAppNumber}?text=${textMsg}`;
         }
 
-        // Render Horizontal Long Videos with transparent click overlays
-        function renderLongVideos() {
-            const container = document.getElementById("long-videos-container");
-            container.innerHTML = "";
-
-            activeLongVideos.forEach((vidId, index) => {
-                const cell = document.createElement("div");
-                cell.className = "grid-item-target relative overflow-hidden bg-[#0d1017] border border-white/10 rounded-2xl aspect-video cursor-pointer";
-                
-                const embedUrl = `https://www.youtube.com/embed/${vidId}?autoplay=1&mute=1&loop=1&playlist=${vidId}&controls=0&playsinline=1&modestbranding=1&enablejsapi=1`;
-
-                cell.innerHTML = `
-                    <iframe 
-                        class="absolute inset-0 w-full h-full object-cover scale-[1.02] pointer-events-none" 
-                        src="${embedUrl}" 
-                        title="Long play ${index + 1}" 
-                        frameborder="0" 
-                        allow="autoplay; encrypted-media" 
-                        allowfullscreen>
-                    </iframe>
-                    <!-- Capture Click Overlay to activate high stage modal -->
-                    <div onclick="openLightbox('${vidId}', false)" class="absolute inset-0 z-10 hover:bg-black/10 transition-colors"></div>
-                    <div class="absolute bottom-3 left-3 font-mono text-[9px] text-white bg-black/80 px-2.5 py-1 rounded-full border border-white/10 pointer-events-none z-20">
-                        PLAY // L_${index + 1}
-                    </div>
-                `;
-                container.appendChild(cell);
-            });
+        // Stealth Admin Handler: Clicking status badge 5 times prompts security PIN modal
+        function handleAdminTrigger() {
+            logoClickCount++;
+            if (logoClickCount === 1) {
+                setTimeout(() => { logoClickCount = 0; }, 3000);
+            }
+            
+            if (logoClickCount >= 5) {
+                logoClickCount = 0;
+                openPinModal();
+            }
         }
 
-        // Render Vertical Reels / Shorts with transparent click overlays
-        function renderShortVideos() {
-            const container = document.getElementById("shorts-container");
-            container.innerHTML = "";
+        // Pin confirmation logic
+        function openPinModal() {
+            const modal = document.getElementById("pin-modal");
+            const content = document.getElementById("pin-modal-content");
+            document.getElementById("admin-pin-field").value = "";
+            modal.classList.remove("hidden");
+            setTimeout(() => {
+                modal.classList.remove("opacity-0");
+                content.classList.remove("scale-95");
+                content.classList.add("scale-100");
+                document.getElementById("admin-pin-field").focus();
+            }, 50);
+        }
 
-            activeShortVideos.forEach((vidId, index) => {
-                const cell = document.createElement("div");
-                cell.className = "grid-item-target relative overflow-hidden bg-[#0d1017] border border-white/10 rounded-2xl aspect-[9/16] cursor-pointer";
+        function closePinModal() {
+            const modal = document.getElementById("pin-modal");
+            const content = document.getElementById("pin-modal-content");
+            modal.classList.add("opacity-0");
+            content.classList.remove("scale-100");
+            content.classList.add("scale-95");
+            setTimeout(() => {
+                modal.classList.add("hidden");
+            }, 300);
+        }
 
-                const embedUrl = `https://www.youtube.com/embed/${vidId}?autoplay=1&mute=1&loop=1&playlist=${vidId}&controls=0&playsinline=1&modestbranding=1&enablejsapi=1`;
+        // Auto-check PIN length as Shayer types to avoid clicking confirm
+        function checkPinLength(input) {
+            if (input.value.length === 4) {
+                verifyAdminPin();
+            }
+        }
 
-                cell.innerHTML = `
-                    <iframe 
-                        class="absolute inset-0 w-full h-full object-cover scale-[1.02] pointer-events-none" 
-                        src="${embedUrl}" 
-                        title="Short play ${index + 1}" 
-                        frameborder="0" 
-                        allow="autoplay; encrypted-media" 
-                        allowfullscreen>
-                    </iframe>
-                    <!-- Capture Click Overlay to activate high stage modal -->
-                    <div onclick="openLightbox('${vidId}', true)" class="absolute inset-0 z-10 hover:bg-black/10 transition-colors"></div>
-                    <div class="absolute bottom-3 left-3 font-mono text-[9px] text-white bg-black/80 px-2.5 py-1 rounded-full border border-white/10 pointer-events-none z-20">
-                        REEL // S_${index + 1}
-                    </div>
-                `;
-                container.appendChild(cell);
-            });
+        function verifyAdminPin() {
+            const pinVal = document.getElementById("admin-pin-field").value;
+            if (pinVal === "1908") {
+                closePinModal();
+                toggleDrawer(true);
+                showToast("System configurations unlocked", "success");
+            } else {
+                showToast("Invalid PIN. Access denied.", "error");
+                document.getElementById("admin-pin-field").value = "";
+                document.getElementById("admin-pin-field").focus();
+            }
+        }
+
+        // Close PIN Modal on clicking outside the card
+        document.getElementById("pin-modal").addEventListener("click", function(e) {
+            if (e.target === this) {
+                closePinModal();
+            }
+        });
+
+        // FLOATING CONTACT HUB CONTROL LOGIC (FAB Toggle)
+        let isFabOpen = false;
+        function toggleFabMenu() {
+            const optionsPanel = document.getElementById("fab-options");
+            const triggerIcon = document.getElementById("fab-icon-container");
+            isFabOpen = !isFabOpen;
+
+            if (isFabOpen) {
+                optionsPanel.classList.remove("opacity-0", "translate-y-4", "pointer-events-none");
+                triggerIcon.classList.add("rotate-90");
+                showToast("Connection channels opened", "info");
+            } else {
+                optionsPanel.classList.add("opacity-0", "translate-y-4", "pointer-events-none");
+                triggerIcon.classList.remove("rotate-90");
+            }
         }
 
         // LIGHTBOX ENGINE (Opens video dynamically, supports sound on direct interaction)
@@ -1030,7 +1049,7 @@
 
             // Adjust aspect ratios dynamically based on orientation
             if (isVertical) {
-                content.className = "w-full max-w-sm aspect-[9/16] h-[85vh] transition-transform duration-300 transform scale-95 mx-auto bg-black rounded-3xl overflow-hidden border border-white/10";
+                content.className = "w-full max-w-[340px] sm:max-w-[380px] aspect-[9/16] transition-transform duration-300 transform scale-95 mx-auto bg-black rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative";
             } else {
                 content.className = "w-full max-w-5xl aspect-video transition-transform duration-300 transform scale-95 mx-auto bg-black rounded-3xl overflow-hidden border border-white/10";
             }
@@ -1050,7 +1069,6 @@
             showToast("Expanding video stage", "info");
         }
 
-        // CLOSE WINDOW POPUP
         function closeLightbox() {
             const lightbox = document.getElementById("video-lightbox");
             const content = document.getElementById("lightbox-content");
@@ -1065,38 +1083,162 @@
             }, 300);
         }
 
-        // FLOATING CONTACT HUB CONTROL LOGIC (FAB Toggle)
-        let isFabOpen = false;
-        function toggleFabMenu() {
-            const optionsPanel = document.getElementById("fab-options");
-            const triggerIcon = document.getElementById("fab-icon-container");
-            isFabOpen = !isFabOpen;
+        // Render Horizontal Long Videos
+        function renderLongVideos() {
+            const container = document.getElementById("long-videos-container");
+            if (!container) return;
+            container.innerHTML = "";
 
-            if (isFabOpen) {
-                optionsPanel.classList.remove("opacity-0", "translate-y-4", "pointer-events-none");
-                triggerIcon.classList.add("rotate-90");
-                showToast("Connection channels opened", "info");
-            } else {
-                optionsPanel.classList.add("opacity-0", "translate-y-4", "pointer-events-none");
-                triggerIcon.classList.remove("rotate-90");
-            }
+            activeLongVideos.forEach((vidId, index) => {
+                const cell = document.createElement("div");
+                cell.className = "grid-item-target relative overflow-hidden bg-[#0d1017] border border-white/10 rounded-3xl aspect-video cursor-none";
+                
+                const embedUrl = `https://www.youtube.com/embed/${vidId}?autoplay=1&mute=1&loop=1&playlist=${vidId}&controls=0&playsinline=1&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&enablejsapi=1`;
+
+                cell.innerHTML = `
+                    <iframe 
+                        class="absolute inset-0 w-full h-full object-cover scale-[1.02] pointer-events-none" 
+                        src="${embedUrl}" 
+                        title="Long play ${index + 1}" 
+                        frameborder="0" 
+                        allow="autoplay; encrypted-media" 
+                        allowfullscreen>
+                    </iframe>
+                    <!-- Capture Click Overlay to activate high stage modal -->
+                    <div onclick="openLightbox('${vidId}', false)" class="absolute inset-0 z-10 hover:bg-black/10 transition-colors"></div>
+                `;
+                container.appendChild(cell);
+            });
         }
 
-        // Close FAB overlay if user clicks anywhere else
-        window.addEventListener("click", function(e) {
-            const fabContainer = document.getElementById("fab-trigger");
-            const optionsPanel = document.getElementById("fab-options");
-            const adminTrigger = document.querySelector('[onclick="handleAdminTrigger()"]');
-            if (isFabOpen && !fabContainer.contains(e.target) && !optionsPanel.contains(e.target)) {
-                toggleFabMenu();
-            }
-        });
+        // Render Vertical Reels / Shorts
+        function renderShortVideos() {
+            const container = document.getElementById("shorts-container");
+            if (!container) return;
+            container.innerHTML = "";
 
-        // Configure Input Forms inside Drawer
+            activeShortVideos.forEach((vidId, index) => {
+                const cell = document.createElement("div");
+                cell.className = "grid-item-target relative overflow-hidden bg-[#0d1017] border border-white/10 rounded-2xl aspect-[9/16] cursor-none";
+
+                const embedUrl = `https://www.youtube.com/embed/${vidId}?autoplay=1&mute=1&loop=1&playlist=${vidId}&controls=0&playsinline=1&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&enablejsapi=1`;
+
+                cell.innerHTML = `
+                    <iframe 
+                        class="absolute inset-0 w-full h-full object-cover scale-[1.02] pointer-events-none" 
+                        src="${embedUrl}" 
+                        title="Short play ${index + 1}" 
+                        frameborder="0" 
+                        allow="autoplay; encrypted-media" 
+                        allowfullscreen>
+                    </iframe>
+                    <!-- Capture Click Overlay to activate high stage modal -->
+                    <div onclick="openLightbox('${vidId}', true)" class="absolute inset-0 z-10 hover:bg-black/10 transition-colors"></div>
+                `;
+                container.appendChild(cell);
+            });
+        }
+
+        // Render Testimonials Dynamically to prevent visual loop cuts
+        function renderTestimonials() {
+            const track1 = document.getElementById("scroll-track-1");
+            const track2 = document.getElementById("scroll-track-2");
+            const track3 = document.getElementById("scroll-track-3");
+
+            if (!track1 || !track2 || !track3) return;
+
+            // Generate identical duplicates for glitch-free loop stability
+            const col1Data = [activeTestimonials[0], activeTestimonials[1], activeTestimonials[0], activeTestimonials[1]];
+            const col2Data = [activeTestimonials[2], activeTestimonials[3], activeTestimonials[2], activeTestimonials[3]];
+            const col3Data = [activeTestimonials[4], activeTestimonials[5], activeTestimonials[4], activeTestimonials[5]];
+
+            const renderTrack = (trackElement, dataset) => {
+                trackElement.innerHTML = dataset.map((item, index) => {
+                    if (!item) return '';
+                    return `
+                        <div class="testimonial-card relative p-6 rounded-[28px] bg-slate-900/50 border border-white/5 flex flex-col justify-between space-y-4 h-[220px] shrink-0 group overflow-visible">
+                            <div class="flex justify-between items-start relative z-10">
+                                <div class="w-8 h-8 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-[var(--accent-primary)] shadow-[0_0_10px_rgba(var(--accent-primary-rgb),0.15)]">
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-4.765 2.627-4.765 5.986h5.77v9.864h-11v0zm-12 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-4.77 2.627-4.77 5.986h5.774v9.864h-11v0z"/></svg>
+                                </div>
+                            </div>
+                            <p class="text-slate-300 text-xs font-light italic leading-relaxed relative z-10 line-clamp-4">
+                                "${item.quote}"
+                            </p>
+                            <div class="flex items-center space-x-3 relative z-10">
+                                <img src="${item.avatar}" alt="${item.author}" class="w-8 h-8 rounded-full border border-white/10 object-cover" onerror="this.src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80'" />
+                                <div>
+                                    <h4 class="font-mono text-xs font-bold text-white">${item.author}</h4>
+                                    <p class="font-mono text-[9px] text-[var(--accent-primary)] tracking-wider uppercase">${item.role}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join("");
+            };
+
+            renderTrack(track1, col1Data);
+            renderTrack(track2, col2Data);
+            renderTrack(track3, col3Data);
+        }
+
+        // Build Testimonial settings editors inside Playback Manager drawer
+        function buildTestimonialInputs() {
+            const container = document.getElementById("drawer-testimonials-inputs");
+            if (!container) return;
+            container.innerHTML = "";
+
+            activeTestimonials.forEach((item, index) => {
+                const itemDiv = document.createElement("div");
+                itemDiv.className = "p-3 rounded-xl bg-white/[0.02] border border-white/5 space-y-2.5";
+                itemDiv.innerHTML = `
+                    <div class="font-mono text-[10px] text-slate-400 font-bold uppercase">TESTIMONIAL ${index + 1}</div>
+                    <div class="space-y-1">
+                        <label class="block font-mono text-[8px] text-slate-500 uppercase">Author Name</label>
+                        <input type="text" id="input-test-author-${index}" value="${item.author}" class="w-full bg-[#0d121d] text-white font-mono text-xs px-2.5 py-1.5 rounded border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block font-mono text-[8px] text-slate-500 uppercase">Author Title / Role</label>
+                        <input type="text" id="input-test-role-${index}" value="${item.role}" class="w-full bg-[#0d121d] text-white font-mono text-xs px-2.5 py-1.5 rounded border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block font-mono text-[8px] text-slate-500 uppercase">Author Image URL</label>
+                        <input type="text" id="input-test-avatar-${index}" value="${item.avatar}" class="w-full bg-[#0d121d] text-white font-mono text-xs px-2.5 py-1.5 rounded border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block font-mono text-[8px] text-slate-500 uppercase">Quote Text</label>
+                        <textarea id="input-test-quote-${index}" rows="2" class="w-full bg-[#0d121d] text-white font-mono text-xs p-2 rounded border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none resize-none">${item.quote}</textarea>
+                    </div>
+                `;
+                container.appendChild(itemDiv);
+            });
+        }
+
+        // Configure Input Forms inside Drawer (Binding hex codes dynamically)
         function buildDrawerInputs() {
-            // Update WhatsApp input box and Intro Video input values
+            // Update WhatsApp input box, Intro Video, and CV PDF URL
             document.getElementById("input-whatsapp-num").value = activeWhatsAppNumber;
             document.getElementById("input-intro-video-id").value = activeIntroVideo;
+            document.getElementById("input-profile-photo-url").value = activeProfilePhoto;
+            document.getElementById("input-cv-url").value = activeCvUrl;
+
+            // Load values for Content Managers
+            document.getElementById("input-brand-name").value = localStorage.getItem("kae_text_brand") || DEFAULT_BRAND_NAME;
+            document.getElementById("input-hero-title").value = localStorage.getItem("kae_text_hero_title") || DEFAULT_HERO_TITLE;
+            document.getElementById("input-hero-desc").value = localStorage.getItem("kae_text_hero_desc") || DEFAULT_HERO_DESC;
+            document.getElementById("input-long-title").value = localStorage.getItem("kae_text_long_title") || DEFAULT_LONG_TITLE;
+            document.getElementById("input-short-title").value = localStorage.getItem("kae_text_short_title") || DEFAULT_SHORT_TITLE;
+            document.getElementById("input-testimonials-title").value = localStorage.getItem("kae_text_test_title") || DEFAULT_TESTIMONIALS_TITLE;
+            document.getElementById("input-contact-title").value = localStorage.getItem("kae_text_contact_title") || DEFAULT_CONTACT_TITLE;
+            document.getElementById("input-contact-desc").value = localStorage.getItem("kae_text_contact_desc") || DEFAULT_CONTACT_DESC;
+
+            // Load Hex color inputs
+            const activeThemeColor = localStorage.getItem("kae_theme_color") || "#CCFF00";
+            document.getElementById("input-theme-color-hex").value = activeThemeColor;
+            document.getElementById("input-theme-color-picker").value = activeThemeColor;
+
+            // Build dynamic editable fields
+            buildTestimonialInputs();
 
             const longContainer = document.getElementById("drawer-long-inputs");
             longContainer.innerHTML = "";
@@ -1105,7 +1247,7 @@
                 item.className = "flex items-center justify-between gap-3";
                 item.innerHTML = `
                     <span class="font-mono text-[10px] text-slate-500 w-12">L_0${index + 1}</span>
-                    <input type="text" id="input-long-${index}" value="${vidId}" class="flex-grow bg-white/[0.02] text-white font-mono text-xs px-3 py-2 rounded-lg border border-white/10 focus:border-[#CCFF00] focus:outline-none" maxlength="11">
+                    <input type="text" id="input-long-${index}" value="${vidId}" class="flex-grow bg-[#0d121d] text-white font-mono text-xs px-3 py-2 rounded-lg border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none" maxlength="11">
                 `;
                 longContainer.appendChild(item);
             });
@@ -1117,11 +1259,22 @@
                 item.className = "flex items-center justify-between gap-3";
                 item.innerHTML = `
                     <span class="font-mono text-[10px] text-slate-500 w-12">S_0${index + 1}</span>
-                    <input type="text" id="input-short-${index}" value="${vidId}" class="flex-grow bg-white/[0.02] text-white font-mono text-xs px-3 py-2 rounded-lg border border-white/10 focus:border-[#CCFF00] focus:outline-none" maxlength="11">
+                    <input type="text" id="input-short-${index}" value="${vidId}" class="flex-grow bg-[#0d121d] text-white font-mono text-xs px-3 py-2 rounded-lg border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none" maxlength="11">
                 `;
                 shortContainer.appendChild(item);
             });
         }
+
+        // Live synchronizer bindings for admin colors
+        document.getElementById("input-theme-color-picker").addEventListener("input", (e) => {
+            document.getElementById("input-theme-color-hex").value = e.target.value.toUpperCase();
+        });
+        document.getElementById("input-theme-color-hex").addEventListener("input", (e) => {
+            let val = e.target.value;
+            if (val.startsWith("#") && val.length === 7) {
+                document.getElementById("input-theme-color-picker").value = val;
+            }
+        });
 
         function toggleDrawer(open) {
             const drawer = document.getElementById("drawer-panel");
@@ -1149,6 +1302,30 @@
                 return;
             }
 
+            // Validate Profile Photo URL
+            const photoInput = document.getElementById("input-profile-photo-url").value.trim();
+            if (photoInput.length === 0) {
+                showToast("Error: Profile Photo URL cannot be empty", "error");
+                return;
+            }
+
+            // Validate CV File URL
+            const cvInput = document.getElementById("input-cv-url").value.trim();
+            if (cvInput.length === 0) {
+                showToast("Error: CV File URL cannot be empty", "error");
+                return;
+            }
+
+            // Validate hex color settings
+            const themeHex = document.getElementById("input-theme-color-hex").value.trim();
+            if (/^#[0-9A-F]{6}$/i.test(themeHex)) {
+                localStorage.setItem("kae_theme_color", themeHex);
+                applyThemeColor(themeHex);
+            } else {
+                showToast("Error: Invalid Hex color format (must be #RRGGBB)", "error");
+                return;
+            }
+
             const newLongs = [];
             for (let i = 0; i < activeLongVideos.length; i++) {
                 const val = document.getElementById(`input-long-${i}`).value.trim();
@@ -1162,7 +1339,7 @@
 
             const newShorts = [];
             for (let i = 0; i < activeShortVideos.length; i++) {
-                const val = document.getElementById(`input-short-${i}`).value.trim();
+                const val = document.getElementById("input-short-" + i).value.trim();
                 if (val.length === 11) {
                     newShorts.push(val);
                 } else {
@@ -1171,19 +1348,48 @@
                 }
             }
 
+            // Save testimonials
+            const newTestimonials = [];
+            for (let i = 0; i < 6; i++) {
+                newTestimonials.push({
+                    author: document.getElementById(`input-test-author-${i}`).value.trim(),
+                    role: document.getElementById(`input-test-role-${i}`).value.trim(),
+                    avatar: document.getElementById(`input-test-avatar-${i}`).value.trim(),
+                    quote: document.getElementById(`input-test-quote-${i}`).value.trim()
+                });
+            }
+
+            // Save text variables
+            localStorage.setItem("kae_text_brand", document.getElementById("input-brand-name").value.trim());
+            localStorage.setItem("kae_text_hero_title", document.getElementById("input-hero-title").value.trim());
+            localStorage.setItem("kae_text_hero_desc", document.getElementById("input-hero-desc").value.trim());
+            localStorage.setItem("kae_text_long_title", document.getElementById("input-long-title").value.trim());
+            localStorage.setItem("kae_text_short_title", document.getElementById("input-short-title").value.trim());
+            localStorage.setItem("kae_text_test_title", document.getElementById("input-testimonials-title").value.trim());
+            localStorage.setItem("kae_text_contact_title", document.getElementById("input-contact-title").value.trim());
+            localStorage.setItem("kae_text_contact_desc", document.getElementById("input-contact-desc").value.trim());
+
             activeLongVideos = newLongs;
             activeShortVideos = newShorts;
             activeWhatsAppNumber = whatsappInput;
             activeIntroVideo = introInput;
+            activeProfilePhoto = photoInput;
+            activeTestimonials = newTestimonials;
+            activeCvUrl = cvInput;
 
             localStorage.setItem("kae_long_videos", JSON.stringify(activeLongVideos));
             localStorage.setItem("kae_short_videos", JSON.stringify(activeShortVideos));
             localStorage.setItem("kae_whatsapp_number", activeWhatsAppNumber);
             localStorage.setItem("kae_intro_video", activeIntroVideo);
+            localStorage.setItem("kae_profile_photo", activeProfilePhoto);
+            localStorage.setItem("kae_testimonials", JSON.stringify(activeTestimonials));
+            localStorage.setItem("kae_cv_url", activeCvUrl);
 
-            updateWhatsAppButtonLink();
+            // Reload configurations
+            loadConfigurations();
             renderLongVideos();
             renderShortVideos();
+            renderTestimonials();
             toggleDrawer(false);
             showToast("Configurations compiled & saved", "success");
         }
@@ -1194,15 +1400,32 @@
             localStorage.removeItem("kae_short_videos");
             localStorage.removeItem("kae_whatsapp_number");
             localStorage.removeItem("kae_intro_video");
+            localStorage.removeItem("kae_profile_photo");
+            localStorage.removeItem("kae_theme_color");
+            localStorage.removeItem("kae_testimonials");
+            localStorage.removeItem("kae_cv_url");
+            
+            localStorage.removeItem("kae_text_brand");
+            localStorage.removeItem("kae_text_hero_title");
+            localStorage.removeItem("kae_text_hero_desc");
+            localStorage.removeItem("kae_text_long_title");
+            localStorage.removeItem("kae_text_short_title");
+            localStorage.removeItem("kae_text_test_title");
+            localStorage.removeItem("kae_text_contact_title");
+            localStorage.removeItem("kae_text_contact_desc");
 
             activeLongVideos = [...DEFAULT_LONG_VIDS];
             activeShortVideos = [...DEFAULT_SHORT_VIDS];
             activeWhatsAppNumber = DEFAULT_WHATSAPP;
             activeIntroVideo = DEFAULT_INTRO_VIDEO;
+            activeProfilePhoto = DEFAULT_PROFILE_PHOTO;
+            activeTestimonials = [...DEFAULT_TESTIMONIALS];
+            activeCvUrl = DEFAULT_CV_URL;
 
-            updateWhatsAppButtonLink();
+            loadConfigurations();
             renderLongVideos();
             renderShortVideos();
+            renderTestimonials();
             toggleDrawer(false);
             showToast("System reverted to initial states", "success");
         }
@@ -1217,78 +1440,51 @@
             showToast("Opening secure mail portal...", "info");
 
             setTimeout(() => {
-                const subject = encodeURIComponent(`Video Project Inquiry from ${name}`);
-                const body = encodeURIComponent(`Hi Shayer,\n\n${message}\n\nMy email is: ${email}`);
-                window.location.href = `mailto:hello.shayer@gmail.com?subject=${subject}&body=${body}`;
+                const subject = encodeURIComponent("Video Project Inquiry from " + name);
+                const body = encodeURIComponent("Hi Shayer,\n\n" + message + "\n\nMy email is: " + email);
+                window.location.href = "mailto:hello.shayer@gmail.com?subject=" + subject + "&body=" + body;
                 
                 document.getElementById("contact-form").reset();
                 showToast("Inquiry recorded successfully", "success");
             }, 1000);
         }
 
-        // Dynamic Dossier / Resume text download
+        // Open/download the configured CV PDF URL directly
         function downloadResume() {
-            showToast("Assembling career dossier...", "info");
-
-            const resumeContent = `========================================================================
-                         SHAYER - CV / DOSSIER
-                  CREATIVE DIRECTOR & VIDEO EDITING ARCHITECT
-========================================================================
-
-LOCATION: Dhaka, Bangladesh
-CONTACT INBOX: hello.shayer@gmail.com
-LINKEDIN: https://www.linkedin.com/in/shayertheone/
-EXPERIENCE: 4 Years (Video Editing & Creative Motion Design)
-
-------------------------------------------------------------------------
-[1] CREATIVE FOCUS & MISSION
-------------------------------------------------------------------------
-Bringing exceptional pacing, high-fidelity visual structure, and motion 
-precision to modern screens. Building seamless visual frameworks that
-bridge client brands with interactive cinematic storytelling.
-
-------------------------------------------------------------------------
-[2] PRODUCTION TECHNOLOGY CAPABILITIES
-------------------------------------------------------------------------
-* CINEMATOGRAPHY / MOTION: Unreal Engine 5, DaVinci Resolve Studio, AE, C4D
-* WEB INTEGRATION: HTML5, CSS3, Tailwind CSS, JS ES6, Canvas API
-
-------------------------------------------------------------------------
-[3] KEY CAREER EXPERIENCES & MILESTONES
-------------------------------------------------------------------------
-* CREATIVE DIRECTOR & EDIT LEAD (2022 - Present)
-  Pioneered lightweight multi-iframe stream decoders, reducing stream 
-  lag metrics by 44% across mobile terminals. Designed interactive virtual 
-  production sets integrating Web3 data layers.
-
-* MOTION DESIGN SPECIALIST (2020 - 2022)
-  Curated customized short-form reels and visual campaign sequences 
-  for premium design studios and tech agencies globally.
-
-========================================================================
-                  DOCUMENT COMPILED SECURELY [SHAYER]
-========================================================================`;
+            showToast("Opening career dossier PDF...", "info");
 
             setTimeout(() => {
-                const blob = new Blob([resumeContent], { type: "text/plain;charset=utf-8" });
-                const url = URL.createObjectURL(blob);
                 const link = document.createElement("a");
-                link.href = url;
-                link.download = "SHAYER_CV_DOSSIER.txt";
+                link.href = activeCvUrl;
+                link.target = "_blank";
+                
+                // Trigger download attribute if relative path (highly recommended for GitHub pages)
+                if (!activeCvUrl.startsWith('http') && !activeCvUrl.startsWith('//')) {
+                    link.setAttribute('download', activeCvUrl.split('/').pop() || 'resume.pdf');
+                }
+                
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
-                URL.revokeObjectURL(url);
-                showToast("Dossier text download complete", "success");
+                showToast("Dossier accessed successfully", "success");
             }, 1200);
         }
 
-        // Subtle Ambient Star Particle Background
+        // --- SUBTLE INTERACTIVE CONSTALLATION FABRIC SIMULATION ---
         const canvas = document.getElementById("constellation-canvas");
         const ctx = canvas.getContext("2d");
 
         let particles = [];
-        const maxParticles = 60;
+        let sparks = [];
+        const maxParticles = 65;
+        let lastTargetX = 0;
+        let lastTargetY = 0;
+        let mouseVelocity = 0;
+
+        // Spring-mass parameters
+        const springK = 0.005; // Spring stiffness
+        const friction = 0.95; // Damping
+        const maxDist = 200;   // Force interaction field
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -1296,13 +1492,17 @@ bridge client brands with interactive cinematic storytelling.
             initParticles();
         }
 
-        class Star {
+        class StarNode {
             constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.25;
-                this.vy = (Math.random() - 0.5) * 0.25;
-                this.radius = Math.random() * 1.2 + 0.5;
+                this.anchorX = Math.random() * canvas.width;
+                this.anchorY = Math.random() * canvas.height;
+                this.x = this.anchorX;
+                this.y = this.anchorY;
+                this.vx = 0;
+                this.vy = 0;
+                this.driftAngle = Math.random() * Math.PI * 2;
+                this.driftSpeed = Math.random() * 0.15 + 0.05;
+                this.radius = Math.random() * 1.5 + 0.5;
             }
 
             draw() {
@@ -1313,35 +1513,154 @@ bridge client brands with interactive cinematic storytelling.
             }
 
             update() {
-                if (this.x < 0 || this.x > canvas.width) this.vx = -this.vx;
-                if (this.y < 0 || this.y > canvas.height) this.vy = -this.vy;
+                // 1. Gently drift anchors
+                this.driftAngle += 0.002;
+                this.anchorX += Math.cos(this.driftAngle) * this.driftSpeed;
+                this.anchorY += Math.sin(this.driftAngle) * this.driftSpeed;
+
+                // Restrict anchor drift bounds
+                if (this.anchorX < 0) this.anchorX = canvas.width;
+                if (this.anchorX > canvas.width) this.anchorX = 0;
+                if (this.anchorY < 0) this.anchorY = canvas.height;
+                if (this.anchorY > canvas.height) this.anchorY = 0;
+
+                // 2. Cursor spring physics integration
+                let forceX = 0;
+                let forceY = 0;
+
+                if (targetX > 0 && targetY > 0) {
+                    let dx = targetX - this.x;
+                    let dy = targetY - this.y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < maxDist) {
+                        // Spring repulsion logic - warp away from cursor
+                        const strength = (maxDist - dist) / maxDist;
+                        const factor = strength * strength * 2.5; 
+                        forceX = -(dx / dist) * factor;
+                        forceY = -(dy / dist) * factor;
+                    }
+                }
+
+                // 3. Elastic return spring towards local anchor
+                let restDx = this.anchorX - this.x;
+                let restDy = this.anchorY - this.y;
+                forceX += restDx * springK;
+                forceY += restDy * springK;
+
+                // Apply forces to velocity with friction damping
+                this.vx = (this.vx + forceX) * friction;
+                this.vy = (this.vy + forceY) * friction;
+
                 this.x += this.vx;
                 this.y += this.vy;
+
                 this.draw();
             }
         }
 
-        // INIT PARTICLES
+        // Quick fade trailing sparks on mouse velocity spikes
+        class Spark {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.vx = (Math.random() - 0.5) * 1.5;
+                this.vy = (Math.random() - 0.5) * 1.5;
+                this.life = 1.0;
+                this.decay = Math.random() * 0.03 + 0.015;
+                this.radius = Math.random() * 1.5 + 0.5;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${document.documentElement.style.getPropertyValue('--accent-primary-rgb') || "204,255,0"}, ${this.life * 0.5})`;
+                ctx.fill();
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life -= this.decay;
+                if (this.life > 0) {
+                    this.draw();
+                    return true;
+                }
+                return false;
+            }
+        }
+
         function initParticles() {
             particles = [];
             for (let i = 0; i < maxParticles; i++) {
-                particles.push(new Star());
+                particles.push(new StarNode());
+            }
+        }
+
+        // Monitor cursor speed and generate reactive sparkles
+        window.addEventListener("mousemove", (e) => {
+            let dx = e.clientX - lastTargetX;
+            let dy = e.clientY - lastTargetY;
+            mouseVelocity = Math.sqrt(dx * dx + dy * dy);
+
+            lastTargetX = e.clientX;
+            lastTargetY = e.clientY;
+
+            // Spawn elegant spark trace if moving fast
+            if (mouseVelocity > 10 && sparks.length < 40) {
+                for (let i = 0; i < 2; i++) {
+                    sparks.push(new Spark(e.clientX, e.clientY));
+                }
+            }
+        });
+
+        function connectParticles() {
+            let opacityValue = 1;
+            const themeRgbStr = document.documentElement.style.getPropertyValue('--accent-primary-rgb') || "204, 255, 0";
+
+            for (let a = 0; a < particles.length; a++) {
+                for (let b = a; b < particles.length; b++) {
+                    let dx = particles[a].x - particles[b].x;
+                    let dy = particles[a].y - particles[b].y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 130) {
+                        opacityValue = 1 - (distance / 130);
+
+                        // Highlight vector linkages close to cursor
+                        let mouseBias = 0;
+                        if (targetX > 0 && targetY > 0) {
+                            let mDx1 = targetX - particles[a].x;
+                            let mDy1 = targetY - particles[a].y;
+                            let mDist1 = Math.sqrt(mDx1 * mDx1 + mDy1 * mDy1);
+
+                            if (mDist1 < maxDist) {
+                                mouseBias = (maxDist - mDist1) / maxDist;
+                            }
+                        }
+
+                        ctx.strokeStyle = `rgba(${themeRgbStr}, ${(opacityValue * 0.12) + (mouseBias * 0.25)})`;
+                        ctx.lineWidth = 0.8 + (mouseBias * 0.6);
+                        ctx.beginPath();
+                        ctx.moveTo(particles[a].x, particles[a].y);
+                        ctx.lineTo(particles[b].x, particles[b].y);
+                        ctx.stroke();
+                    }
+                }
             }
         }
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => p.update());
-            requestAnimationFrame(animate);
-        }
 
-        // Telemetry system live clock
-        function startTelemetryClock() {
-            setInterval(() => {
-                const now = new Date();
-                const timeStr = now.toISOString().split('T')[1].slice(0, 8) + ' GMT';
-                document.getElementById("header-time").innerText = timeStr;
-            }, 1000);
+            // Update Constellation Nodes
+            particles.forEach(p => p.update());
+            connectParticles();
+
+            // Update Velocity Sparks
+            sparks = sparks.filter(spark => spark.update());
+
+            requestAnimationFrame(animate);
         }
 
         // Non-blocking premium notifications
@@ -1361,7 +1680,7 @@ bridge client brands with interactive cinematic storytelling.
 
             toast.innerHTML = `
                 <div class="flex items-center space-x-2">
-                    <span class="w-1.5 h-1.5 rounded-full animate-ping" style="background-color: ${type === 'success' ? 'var(--accent-primary)' : type === 'error' ? '#f43f5e' : '#60a5fa'}"></span>
+                    <span class="w-1.5 h-1.5 rounded-full animate-ping" style="background-color: var(--accent-primary)"></span>
                     <span class="font-mono text-[10px] tracking-widest text-slate-200 uppercase">${message}</span>
                 </div>
             `;
@@ -1387,8 +1706,8 @@ bridge client brands with interactive cinematic storytelling.
             loadConfigurations();
             renderLongVideos();
             renderShortVideos();
+            renderTestimonials();
             resizeCanvas();
-            startTelemetryClock();
             requestAnimationFrame(animate);
             showToast("System ready", "success");
         };
