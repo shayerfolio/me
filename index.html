@@ -1,9 +1,25 @@
 <!DOCTYPE html>
+<!--
+==========================================================================
+EASY EDIT VERSION
+==========================================================================
+Want to change site content? Press Ctrl+F and search: NOOB EDIT ZONE
+Then only edit values inside that block.
+
+Useful searches: EDIT NAME / EDIT CONTACT / EDIT COLORS / EDIT FILES /
+EDIT TEXT / EDIT LONG VIDEOS / EDIT SHORTS / EDIT TESTIMONIALS / EDIT BRANDS
+==========================================================================
+-->
 <html lang="en" class="h-full scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shayer // Creative Director & Video Editor</title>
+    <title id="page-title">Shayer // Motion Designer & Video Editor</title>
+    <meta id="meta-description" name="description" content="Shayer is a motion designer and video editor based in Dhaka, Bangladesh, creating polished B2B, SaaS, product, and branded video content.">
+    <meta id="og-title" property="og:title" content="Shayer // Motion Designer & Video Editor">
+    <meta id="og-description" property="og:description" content="Motion design, video editing, creative direction, product explainers, and short-form work by Shayer.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
@@ -33,8 +49,11 @@
 
         /* Hide default cursor completely on desktop device ranges */
         @media (min-width: 1024px) {
-            *, *::before, *::after, html, body, a, button, select, input, textarea {
+            html, body, a, button, [role="button"] {
                 cursor: none !important;
+            }
+            input, textarea, select {
+                cursor: text !important;
             }
         }
 
@@ -177,10 +196,22 @@
         ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 99px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--accent-primary); }
 
-        .drawer-transition { transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
-        
         /* Utility for handwritten elements */
-        .font-caveat { font-family: 'Caveat', cursive; }
+        /* TYPOGRAPHY LOCK — matches the original portfolio exactly */
+        html, body { font-family: 'Inter', sans-serif; }
+        .font-sans { font-family: 'Inter', sans-serif !important; }
+        .font-mono { font-family: 'JetBrains Mono', monospace !important; }
+        .font-caveat { font-family: 'Caveat', cursive !important; }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto !important; }
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            #constellation-canvas, #custom-cursor { display: none !important; }
+        }
     </style>
 </head>
 <body class="text-[#f1f5f9] font-sans relative overflow-x-hidden min-h-screen select-none">
@@ -224,11 +255,11 @@
                 <!-- Text Area & Intro Video (Left) -->
                 <div class="lg:col-span-7 space-y-8 flex flex-col relative z-20">
                     <div class="space-y-6">
-                        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-light tracking-tight text-white leading-[1.05]">
+                        <h1 id="hero-heading" class="text-4xl sm:text-6xl lg:text-7xl font-light tracking-tight text-white leading-[1.05]">
                             Hi, I am Shayer.
                         </h1>
                         
-                        <p class="text-slate-300 text-lg sm:text-xl leading-relaxed max-w-2xl font-light">
+                        <p id="hero-bio" class="text-slate-300 text-lg sm:text-xl leading-relaxed max-w-2xl font-light">
                             A motion designer and video editor based in Dhaka, Bangladesh, with 4+ years of experience creating video content that helps B2B brands communicate clearly and look world-class doing it.
                         </p>
                     </div>
@@ -281,8 +312,8 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                                 </svg>
                                 <div>
-                                    <span class="block font-mono text-xs text-slate-400 font-bold uppercase tracking-widest">SHAYER</span>
-                                    <span class="block font-mono text-[9px] text-slate-500 mt-1">DHAKA, BANGLADESH</span>
+                                    <span id="portrait-name" class="block font-mono text-xs text-slate-400 font-bold uppercase tracking-widest">SHAYER</span>
+                                    <span id="portrait-location" class="block font-mono text-[9px] text-slate-500 mt-1">DHAKA, BANGLADESH</span>
                                 </div>
                             </div>
                         </div>
@@ -291,20 +322,20 @@
                     <!-- Clean Twin CTA Buttons Under Portrait (Glossy 3D Pill Mechanics) -->
                     <div class="flex flex-row gap-5 mt-6 w-full max-w-[280px] sm:max-w-[320px] z-20 relative">
                         <!-- CV Button -->
-                        <div onclick="downloadResume()" class="flex-1 rounded-full bg-gradient-to-r from-teal-400 to-[var(--accent-primary)] p-3.5 flex items-center justify-center space-x-2 cursor-none group transition-all duration-300 shadow-[inset_0_4px_6px_rgba(255,255,255,0.7),inset_0_-4px_6px_rgba(0,0,0,0.15),0_10px_20px_rgba(var(--accent-primary-rgb),0.3)] hover:-translate-y-1 hover:shadow-[inset_0_4px_8px_rgba(255,255,255,0.8),inset_0_-4px_8px_rgba(0,0,0,0.15),0_15px_30px_rgba(var(--accent-primary-rgb),0.4)] active:translate-y-1 active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.1),inset_0_-2px_4px_rgba(255,255,255,0.2),0_5px_10px_rgba(var(--accent-primary-rgb),0.2)] border border-white/40">
+                        <button type="button" onclick="downloadResume()" class="flex-1 rounded-full bg-gradient-to-r from-teal-400 to-[var(--accent-primary)] p-3.5 flex items-center justify-center space-x-2 cursor-none group transition-all duration-300 shadow-[inset_0_4px_6px_rgba(255,255,255,0.7),inset_0_-4px_6px_rgba(0,0,0,0.15),0_10px_20px_rgba(var(--accent-primary-rgb),0.3)] hover:-translate-y-1 hover:shadow-[inset_0_4px_8px_rgba(255,255,255,0.8),inset_0_-4px_8px_rgba(0,0,0,0.15),0_15px_30px_rgba(var(--accent-primary-rgb),0.4)] active:translate-y-1 active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.1),inset_0_-2px_4px_rgba(255,255,255,0.2),0_5px_10px_rgba(var(--accent-primary-rgb),0.2)] border border-white/40">
                             <svg class="w-4 h-4 text-[#064e3b] group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                             </svg>
                             <span class="font-sans text-xs font-extrabold text-[#064e3b] tracking-wide">Resume</span>
-                        </div>
+                        </button>
 
                         <!-- LinkedIn Button -->
-                        <div onclick="window.open('https://www.linkedin.com/in/shayertheone/', '_blank')" class="flex-1 rounded-full bg-gradient-to-r from-cyan-400 to-blue-600 p-3.5 flex items-center justify-center space-x-2 cursor-none group transition-all duration-300 shadow-[inset_0_4px_6px_rgba(255,255,255,0.5),inset_0_-4px_6px_rgba(0,0,0,0.2),0_10px_20px_rgba(37,99,235,0.3)] hover:-translate-y-1 hover:shadow-[inset_0_4px_8px_rgba(255,255,255,0.6),inset_0_-4px_8px_rgba(0,0,0,0.2),0_15px_30px_rgba(37,99,235,0.4)] active:translate-y-1 active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.2),inset_0_-2px_4px_rgba(255,255,255,0.1),0_5px_10px_rgba(37,99,235,0.2)] border border-white/30">
+                        <a id="linkedin-link" href="#" target="_blank" rel="noopener noreferrer" class="flex-1 rounded-full bg-gradient-to-r from-cyan-400 to-blue-600 p-3.5 flex items-center justify-center space-x-2 cursor-none group transition-all duration-300 shadow-[inset_0_4px_6px_rgba(255,255,255,0.5),inset_0_-4px_6px_rgba(0,0,0,0.2),0_10px_20px_rgba(37,99,235,0.3)] hover:-translate-y-1 hover:shadow-[inset_0_4px_8px_rgba(255,255,255,0.6),inset_0_-4px_8px_rgba(0,0,0,0.2),0_15px_30px_rgba(37,99,235,0.4)] active:translate-y-1 active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.2),inset_0_-2px_4px_rgba(255,255,255,0.1),0_5px_10px_rgba(37,99,235,0.2)] border border-white/30">
                             <svg class="w-4 h-4 text-white group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
                             </svg>
                             <span class="font-sans text-xs font-extrabold text-white tracking-wide">LinkedIn</span>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </section>
@@ -316,7 +347,7 @@
                 </div>
 
                 <div class="premium-card p-3 sm:p-5 rounded-[32px] relative overflow-hidden">
-                    <div id="long-videos-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 w-full animate-fadeIn">
+                    <div id="long-videos-container" class="video-grid-hover-effect grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 w-full animate-fadeIn">
                         <!-- Instantiated by JS dynamically -->
                     </div>
                 </div>
@@ -329,7 +360,7 @@
                 </div>
 
                 <div class="premium-card p-3 sm:p-5 rounded-[32px]">
-                    <div id="shorts-container" class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 w-full">
+                    <div id="shorts-container" class="video-grid-hover-effect grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 w-full">
                         <!-- Instantiated by JS dynamically -->
                     </div>
                 </div>
@@ -338,7 +369,7 @@
             <!-- SECTION: TESTIMONIALS -->
             <section class="space-y-8" id="testimonials-section">
                 <div class="flex flex-col border-b border-white/5 pb-6">
-                    <h2 class="text-3xl sm:text-4xl font-light text-[var(--accent-primary)] mt-1 drop-shadow-[0_0_20px_rgba(var(--accent-primary-rgb),0.15)] max-w-2xl leading-tight">What Project Managers, CSMs, and Team Leads say about me</h2>
+                    <h2 id="testimonials-heading" class="text-3xl sm:text-4xl font-light text-[var(--accent-primary)] mt-1 drop-shadow-[0_0_20px_rgba(var(--accent-primary-rgb),0.15)] max-w-2xl leading-tight">What Project Managers, CSMs, and Team Leads say about me</h2>
                 </div>
 
                 <div class="testimonials-container relative overflow-hidden h-[480px] px-8 sm:px-12 py-6 rounded-3xl bg-[#090b10]/40">
@@ -357,42 +388,7 @@
             <section class="space-y-4 pt-4 overflow-hidden relative">
                 <div class="border-t border-white/5 pt-12">
                     <div class="relative w-full overflow-hidden py-6 bg-white/[0.01] border-y border-white/[0.03]">
-                        <div class="marquee-container whitespace-nowrap">
-                            <!-- Block 1 -->
-                            <div class="inline-flex items-center space-x-12">
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-none px-6">AETHER</span>
-                                <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-none px-6">MONOLITH</span>
-                                <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-none px-6">VIRTUE</span>
-                                <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-none px-6">KINETIC</span>
-                                <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-none px-6">NEURAL_STUDIOS</span>
-                                <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-none px-6">EIGHT_CO</span>
-                                <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-none px-6">PHANTOM</span>
-                                <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                            </div>
-                            <!-- Block 2 -->
-                            <div class="inline-flex items-center space-x-12">
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-none px-6">AETHER</span>
-                                <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-none px-6">MONOLITH</span>
-                                <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-none px-6">VIRTUE</span>
-                                <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-none px-6">KINETIC</span>
-                                <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-none px-6">NEURAL_STUDIOS</span>
-                                <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-none px-6">EIGHT_CO</span>
-                                <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                                <span class="font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-none px-6">PHANTOM</span>
-                                <span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span>
-                            </div>
-                        </div>
+                        <div id="brands-marquee" class="marquee-container whitespace-nowrap"></div>
                     </div>
                 </div>
             </section>
@@ -400,25 +396,25 @@
             <!-- SECTION: INLINE CONTACT / EMAIL -->
             <section class="space-y-8" id="contact-section">
                 <div class="flex flex-col border-b border-white/5 pb-6 pt-12">
-                    <h2 class="text-3xl sm:text-4xl font-light text-[var(--accent-primary)] mt-1 drop-shadow-[0_0_20px_rgba(var(--accent-primary-rgb),0.15)]">Get in Touch</h2>
+                    <h2 id="contact-heading" class="text-3xl sm:text-4xl font-light text-[var(--accent-primary)] mt-1 drop-shadow-[0_0_20px_rgba(var(--accent-primary-rgb),0.15)]">Get in Touch</h2>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                     <!-- Left Copy / Details -->
                     <div class="lg:col-span-5 space-y-6">
-                        <p class="text-slate-400 text-sm sm:text-base leading-relaxed font-light">
+                        <p id="contact-copy" class="text-slate-400 text-sm sm:text-base leading-relaxed font-light">
                             If you're seeking customized video setups, interactive media integrations, or looking to discuss creative direction for an upcoming product launch:
                         </p>
                         
                         <div class="space-y-4">
-                            <a href="mailto:hello.shayer@gmail.com" class="group flex items-center space-x-4 p-4 rounded-2xl bg-white/[0.01] border border-white/5 hover:border-[var(--accent-primary)]/40 transition-all font-mono text-xs select-none relative z-30 cursor-none">
+                            <a id="contact-email-link" href="#" class="group flex items-center space-x-4 p-4 rounded-2xl bg-white/[0.01] border border-white/5 hover:border-[var(--accent-primary)]/40 transition-all font-mono text-xs select-none relative z-30 cursor-none">
                                 <div class="w-12 h-12 rounded-full bg-white/[0.02] flex items-center justify-center text-slate-400 group-hover:text-[var(--accent-primary)] transition-colors">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                                     </svg>
                                 </div>
                                 <div>
-                                    <span class="block font-sans font-bold text-sm text-slate-200">hello.shayer@gmail.com</span>
+                                    <span id="contact-email-text" class="block font-sans font-bold text-sm text-slate-200">Email</span>
                                 </div>
                             </a>
                         </div>
@@ -429,16 +425,16 @@
                         <form id="contact-form" onsubmit="handleFormSubmit(event)" class="premium-card p-8 rounded-[32px] space-y-4">
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div class="space-y-1.5">
-                                    <label class="block font-mono text-[10px] text-slate-500 uppercase">Your Name</label>
+                                    <label for="form-name" class="block font-mono text-[10px] text-slate-500 uppercase">Your Name</label>
                                     <input type="text" id="form-name" required class="w-full bg-white/[0.02] text-white font-mono text-sm px-4 py-3.5 rounded-xl border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none transition-colors cursor-none" placeholder="e.g. Satoshi">
                                 </div>
                                 <div class="space-y-1.5">
-                                    <label class="block font-mono text-[10px] text-slate-500 uppercase">Your Email</label>
+                                    <label for="form-email" class="block font-mono text-[10px] text-slate-500 uppercase">Your Email</label>
                                     <input type="email" id="form-email" required class="w-full bg-white/[0.02] text-white font-mono text-sm px-4 py-3.5 rounded-xl border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none transition-colors cursor-none" placeholder="e.g. user@domain.com">
                                 </div>
                             </div>
                             <div class="space-y-1.5">
-                                <label class="block font-mono text-[10px] text-slate-500 uppercase">Message</label>
+                                <label for="form-message" class="block font-mono text-[10px] text-slate-500 uppercase">Message</label>
                                 <textarea id="form-message" rows="4" required class="w-full bg-white/[0.02] text-white font-mono text-sm p-4 rounded-xl border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none transition-colors resize-none cursor-none" placeholder="Write details about your vision here..."></textarea>
                             </div>
                             <button type="submit" class="w-full py-5 sm:py-6 rounded-xl bg-[var(--accent-primary)] text-black font-mono text-sm font-bold uppercase tracking-wider hover:bg-white hover:text-black hover:shadow-[0_0_25px_rgba(204,255,0,0.3)] transition-all cursor-none">
@@ -452,15 +448,8 @@
         </main>
 
         <!-- FOOTER -->
-        <footer class="w-full py-12 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center text-[10px] font-mono text-slate-500 gap-4 mt-12">
-            <span>© 2026 SHAYER // CREATIVE MOTION ARCHIVE</span>
-            <div class="flex items-center space-x-6 relative">
-                <!-- Secret Admin trigger secretly anchored to a wider click-friendly badge in bottom-right of footer -->
-                <div id="admin-trigger-badge" onclick="handleAdminTrigger()" class="flex items-center space-x-2 bg-white/[0.02] border border-white/5 px-3 py-1.5 rounded-md hover:border-[var(--accent-primary)]/20 hover:bg-[var(--accent-primary)]/[0.02] transition-all select-none relative z-30 group cursor-none" title="System Status badge">
-                    <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] group-hover:animate-ping"></span>
-                    <span class="font-mono text-[9px] text-slate-400 group-hover:text-white transition-colors">NODE: SHY_08 // ACTIVE</span>
-                </div>
-            </div>
+        <footer class="w-full py-12 border-t border-white/5 flex items-center justify-center sm:justify-start text-[10px] font-mono text-slate-500 mt-12">
+            <span id="footer-text">© 2026 SHAYER // CREATIVE MOTION ARCHIVE</span>
         </footer>
 
     </div>
@@ -469,13 +458,13 @@
     <div class="fixed bottom-6 right-6 z-40 flex flex-col items-end space-y-3">
         <!-- Floating Options Panel -->
         <div id="fab-options" class="flex flex-col space-y-2 opacity-0 translate-y-4 pointer-events-none transition-all duration-300">
-            <a id="fab-whatsapp-button" href="https://wa.me/8801700000000" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 bg-[#25D366] text-white px-5 py-3 rounded-full shadow-[0_4px_15px_rgba(37,211,102,0.3)] hover:scale-105 hover:bg-[#20ba5a] transition-all duration-300 text-[10px] font-mono font-bold tracking-wider uppercase cursor-none">
+            <a id="fab-whatsapp-button" href="#" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 bg-[#25D366] text-white px-5 py-3 rounded-full shadow-[0_4px_15px_rgba(37,211,102,0.3)] hover:scale-105 hover:bg-[#20ba5a] transition-all duration-300 text-[10px] font-mono font-bold tracking-wider uppercase cursor-none">
                 <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.458 5.704 1.459h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                 </svg>
                 <span>WhatsApp</span>
             </a>
-            <a href="mailto:hello.shayer@gmail.com" class="flex items-center space-x-2 bg-white text-black px-5 py-3 rounded-full shadow-[0_4px_15px_rgba(255,255,255,0.15)] hover:scale-105 transition-all duration-300 text-[10px] font-mono font-bold tracking-wider uppercase cursor-none">
+            <a id="fab-email-button" href="#" class="flex items-center space-x-2 bg-white text-black px-5 py-3 rounded-full shadow-[0_4px_15px_rgba(255,255,255,0.15)] hover:scale-105 transition-all duration-300 text-[10px] font-mono font-bold tracking-wider uppercase cursor-none">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                 </svg>
@@ -492,102 +481,10 @@
         </button>
     </div>
 
-    <!-- SECRET ADMIN PIN CONFIRMATION MODAL -->
-    <div id="pin-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300 cursor-none">
-        <div class="premium-card max-w-sm w-full p-8 rounded-3xl border border-white/10 text-center space-y-6 transform scale-95 transition-transform duration-300" id="pin-modal-content">
-            <div class="w-12 h-12 bg-white/5 border border-[var(--accent-primary)]/30 rounded-full flex items-center justify-center mx-auto text-[var(--accent-primary)]">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-                </svg>
-            </div>
-            <div>
-                <h3 class="font-mono text-sm font-bold text-white tracking-widest uppercase">ENTER SYSTEM PIN</h3>
-                <p class="font-mono text-[10px] text-slate-500 mt-1">AUTHORIZATION REQUIRED</p>
-            </div>
-            <div class="relative">
-                <input type="password" id="admin-pin-field" oninput="checkPinLength(this)" class="w-full text-center bg-white/[0.03] text-[var(--accent-primary)] font-mono text-xl tracking-[0.4em] py-3 rounded-xl border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none cursor-none" placeholder="••••" maxlength="4">
-            </div>
-        </div>
-    </div>
-
-    <!-- CONFIGURATION DRAWER (MANAGE ACTIVE VIDEOS & SETTINGS) -->
-    <div id="drawer-panel" class="fixed top-0 right-0 h-full w-full max-w-md bg-[#090b0e] border-l border-white/5 z-50 transform translate-x-full drawer-transition flex flex-col shadow-[0_0_80px_rgba(0,0,0,0.8)] text-slate-100 cursor-none">
-        <div class="p-8 border-b border-white/5 flex justify-between items-center">
-            <div>
-                <h3 class="font-mono text-sm font-bold text-white tracking-widest uppercase">PLAYBACK MANAGER</h3>
-                <p class="font-mono text-[10px] text-slate-400 mt-1">UPDATE CURRENT VIDEO SOURCE LINKS</p>
-            </div>
-            <button onclick="toggleDrawer(false)" class="text-slate-400 hover:text-white transition-colors border border-white/10 p-2 rounded-full hover:border-white/25 cursor-none">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
-        </div>
-
-        <div class="flex-grow overflow-y-auto p-8 space-y-8">
-            
-            <!-- SECTION 1: IDENTITY & STYLING -->
-            <div class="space-y-4 border-b border-white/5 pb-6">
-                <h4 class="font-mono text-xs text-[var(--accent-primary)] font-bold uppercase tracking-wider">IDENTITY & STYLING</h4>
-                <div class="space-y-3">
-                    <div class="space-y-1">
-                        <label class="block font-mono text-[9px] text-slate-500 uppercase">Profile Photo URL</label>
-                        <input type="text" id="input-profile-photo-url" class="w-full bg-white/[0.02] text-white font-mono text-xs px-3 py-2.5 rounded-lg border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none cursor-none" placeholder="e.g. DP.jpg or raw.githubusercontent path">
-                    </div>
-                    <div class="space-y-1">
-                        <label class="block font-mono text-[9px] text-slate-500 uppercase">WhatsApp Connection Code</label>
-                        <input type="text" id="input-whatsapp-num" class="w-full bg-white/[0.02] text-white font-mono text-xs px-3 py-2.5 rounded-lg border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none cursor-none">
-                    </div>
-                    <div class="space-y-1">
-                        <label class="block font-mono text-[9px] text-slate-500 uppercase">Intro Video YouTube ID</label>
-                        <input type="text" id="input-intro-video-id" class="w-full bg-white/[0.02] text-white font-mono text-xs px-3 py-2.5 rounded-lg border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none cursor-none" placeholder="e.g. y6120Q5iUAc">
-                    </div>
-                    <div class="space-y-1">
-                        <label class="block font-mono text-[9px] text-slate-500 uppercase">CV File URL / Relative Path</label>
-                        <input type="text" id="input-cv-url" class="w-full bg-white/[0.02] text-[#f1f5f9] font-mono text-xs px-3 py-2.5 rounded-lg border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none cursor-none" placeholder="e.g. resume.pdf or raw.githubusercontent path">
-                    </div>
-                    <div class="space-y-1.5 pt-2">
-                        <label class="block font-mono text-[9px] text-slate-500 uppercase">Primary Accent Theme Color</label>
-                        <div class="flex items-center space-x-2">
-                            <input type="color" id="input-theme-color-picker" class="w-10 h-10 rounded border border-white/10 bg-transparent cursor-none">
-                            <input type="text" id="input-theme-color-hex" class="flex-grow bg-white/[0.02] text-white font-mono text-xs px-3 py-2.5 rounded-lg border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none cursor-none" placeholder="#CCFF00" maxlength="7">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SECTION 2: PLAYLIST (LONG VIDEOS) -->
-            <div class="space-y-4 border-b border-white/5 pb-6">
-                <h4 class="font-mono text-xs text-[var(--accent-primary)] font-bold uppercase tracking-wider">LONG VIDEOS PLAYLIST (6 SLOTS)</h4>
-                <div id="drawer-long-inputs" class="space-y-3">
-                    <!-- Dynamic fields -->
-                </div>
-            </div>
-
-            <!-- SECTION 3: PLAYLIST (REELS / SHORTS) -->
-            <div class="space-y-4">
-                <h4 class="font-mono text-xs text-[var(--accent-primary)] font-bold uppercase tracking-wider">REELS / SHORTS (4 SLOTS)</h4>
-                <div id="drawer-short-inputs" class="space-y-3">
-                    <!-- Dynamic fields -->
-                </div>
-            </div>
-
-        </div>
-
-        <div class="p-8 border-t border-white/5 bg-[#07090d] grid grid-cols-2 gap-4">
-            <button onclick="resetGridToDefault()" class="py-3.5 px-2 rounded-full bg-transparent border border-white/10 hover:border-white/30 text-slate-300 font-mono text-xs transition-all cursor-none">
-                RESET DEFAULTS
-            </button>
-            <button onclick="saveGridConfig()" class="py-3.5 px-2 rounded-full bg-[var(--accent-primary)] text-black hover:bg-white font-mono text-xs font-bold transition-all cursor-none">
-                COMPILE LINKS
-            </button>
-        </div>
-    </div>
-
     <!-- VIDEO LIGHTBOX OVERLAY MODAL -->
-    <div id="video-lightbox" class="fixed inset-0 bg-[#06080c]/95 z-50 flex items-center justify-center p-4 sm:p-8 hidden opacity-0 transition-opacity duration-300 cursor-none" onclick="closeLightbox()">
+    <div id="video-lightbox" role="dialog" aria-modal="true" aria-label="Video player" class="fixed inset-0 bg-[#06080c]/95 z-50 flex items-center justify-center p-4 sm:p-8 hidden opacity-0 transition-opacity duration-300 cursor-none" onclick="closeLightbox()">
         <!-- Close Button -->
-        <button onclick="closeLightbox(); event.stopPropagation();" class="absolute top-6 right-6 text-slate-400 hover:text-white hover:scale-110 transition-transform p-3 rounded-full border border-white/10 bg-white/5 hover:border-[var(--accent-primary)]/50 z-50 cursor-none">
+        <button type="button" aria-label="Close video" onclick="closeLightbox(); event.stopPropagation();" class="absolute top-6 right-6 text-slate-400 hover:text-white hover:scale-110 transition-transform p-3 rounded-full border border-white/10 bg-white/5 hover:border-[var(--accent-primary)]/50 z-50 cursor-none">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -603,26 +500,90 @@
 
     <!-- MAIN CONTROL & RENDERING MODULE -->
     <script>
-        // Default Horizontal Loops
-        const DEFAULT_LONG_VIDS = [
-            { id: "ZvLrB371_fw", title: "Apiphani-Product Explainer" },
-            { id: "lxgeMqABPiA", title: "NazmC-Marketing manager course Trailer" },
-            { id: "xsr04fXIZvQ", title: "Hubsync Product Explainer" },
-            { id: "iEFjMAJBFWE", title: "Titanic Conspiracy" },
-            { id: "qRn-0ZsW9U8", title: "UI Telemetry Interface" },
-            { id: "aSt0aFE3hsI", title: "Sound Nest Promo" }
+
+        /* ======================================================================
+           NOOB EDIT ZONE - CHANGE ONLY THE VALUES IN THIS SECTION
+
+           GitHub tip:
+           1. Open index.html
+           2. Press Ctrl+F
+           3. Search one of these exact labels:
+
+              EDIT NAME
+              EDIT CONTACT
+              EDIT COLORS
+              EDIT FILES
+              EDIT TEXT
+              EDIT LONG VIDEOS
+              EDIT SHORTS
+              EDIT TESTIMONIALS
+              EDIT BRANDS
+
+           You can paste either a full YouTube URL OR an 11-character video ID.
+           Keep quotation marks around text values.
+           ====================================================================== */
+
+        // EDIT NAME
+        const EDIT_SITE = {
+            name: "Shayer",
+            logoText: "SHAYER",
+            location: "Dhaka, Bangladesh",
+            jobTitle: "Motion Designer & Video Editor",
+
+            // EDIT CONTACT
+            email: "hello.shayer@gmail.com",
+            whatsapp: "8801323308784",
+            linkedin: "https://www.linkedin.com/in/shayertheone/",
+
+            // EDIT COLORS
+            themeColor: "#CCFF00",
+
+            // EDIT FILES
+            profilePhoto: "DP.jpg",
+            cvUrl: "resume.pdf",
+            introVideo: "https://youtu.be/y6120Q5iUAc",
+            introPreview: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=800&q=80",
+
+            // EDIT TEXT
+            heroHeading: "Hi, I am Shayer.",
+            heroBio: "A motion designer and video editor based in Dhaka, Bangladesh, with 4+ years of experience creating video content that helps B2B brands communicate clearly and look world-class doing it.",
+            testimonialsHeading: "What Project Managers, CSMs, and Team Leads say about me",
+            contactHeading: "Get in Touch",
+            contactCopy: "If you're seeking customized video setups, interactive media integrations, or looking to discuss creative direction for an upcoming product launch:",
+            whatsappMessage: "Hi Shayer, I saw your video production portfolio and I would love to connect about a project!",
+            emailGreeting: "Hi Shayer,",
+            emailSubjectPrefix: "Video Project Inquiry from ",
+            footerText: "© 2026 SHAYER // CREATIVE MOTION ARCHIVE",
+
+            // EDIT SEO
+            pageTitle: "Shayer // Motion Designer & Video Editor",
+            pageDescription: "Shayer is a motion designer and video editor based in Dhaka, Bangladesh, creating polished B2B, SaaS, product, and branded video content.",
+            socialDescription: "Motion design, video editing, creative direction, product explainers, and short-form work by Shayer."
+        };
+
+        // EDIT LONG VIDEOS
+        // Add/remove lines freely. youtube = full URL or video ID.
+        const EDIT_LONG_VIDEOS = [
+            { youtube: "https://youtu.be/ZvLrB371_fw", title: "Apiphani - Product Explainer" },
+            { youtube: "https://youtu.be/lxgeMqABPiA", title: "NazmC - Marketing Manager Course Trailer" },
+            { youtube: "https://youtu.be/xsr04fXIZvQ", title: "Hubsync Product Explainer" },
+            { youtube: "https://youtu.be/iEFjMAJBFWE", title: "Titanic Conspiracy" },
+            { youtube: "https://youtu.be/qRn-0ZsW9U8", title: "UI Telemetry Interface" },
+            { youtube: "https://youtu.be/aSt0aFE3hsI", title: "Sound Nest Promo" }
         ];
 
-        // Default Vertical Loops
-        const DEFAULT_SHORT_VIDS = [
-            { id: "q76bMs-NwRk", title: "Alley Reel" },
-            { id: "y6120Q5iUAc", title: "Sunset Reel" },
-            { id: "j_gN3Iq02Yg", title: "Corridor Cut" },
-            { id: "u9C_f7V_8F8", title: "Tunnel Concept" }
+        // EDIT SHORTS
+        // Add/remove lines freely. youtube = full URL or video ID.
+        const EDIT_SHORT_VIDEOS = [
+            { youtube: "https://youtu.be/q76bMs-NwRk", title: "Alley Reel" },
+            { youtube: "https://youtu.be/y6120Q5iUAc", title: "Sunset Reel" },
+            { youtube: "https://youtu.be/j_gN3Iq02Yg", title: "Corridor Cut" },
+            { youtube: "https://youtu.be/u9C_f7V_8F8", title: "Tunnel Concept" }
         ];
 
-        // Default Testimonials Dataset (Targeted bolding implemented, Hardcoded for clean permanent hosting)
-        const TESTIMONIALS_DATA = [
+        // EDIT TESTIMONIALS
+        // <strong>word</strong> makes part of a quote bold.
+        const EDIT_TESTIMONIALS = [
             {
                 quote: "Shayer's <strong>speed is unmatched</strong>. He turned around a complex 3D commercial in 48 hours without compromising on the high-fidelity motion elements. Absolute professional.",
                 author: "Sarah Jenkins",
@@ -661,19 +622,33 @@
             }
         ];
 
-        // System defaults
-        const DEFAULT_WHATSAPP = "8801323308784";
-        const DEFAULT_INTRO_VIDEO = "y6120Q5iUAc"; 
-        const DEFAULT_PROFILE_PHOTO = "DP.jpg"; 
-        const DEFAULT_CV_URL = "resume.pdf"; 
+        // EDIT BRANDS
+        const EDIT_BRANDS = [
+            "AETHER",
+            "MONOLITH",
+            "VIRTUE",
+            "KINETIC",
+            "NEURAL_STUDIOS",
+            "EIGHT_CO",
+            "PHANTOM"
+        ];
 
-        let activeLongVideos = [];
-        let activeShortVideos = [];
-        let activeWhatsAppNumber = 01323308784;
-        let activeIntroVideo = DEFAULT_INTRO_VIDEO;
-        let activeProfilePhoto = DEFAULT_PROFILE_PHOTO;
-        let activeCvUrl = DEFAULT_CV_URL;
-        let logoClickCount = 0;
+        /* ========================== END NOOB EDIT ZONE ==========================
+           DO NOT EDIT BELOW THIS LINE unless you are changing how the site works.
+           ====================================================================== */
+
+        // Internal aliases used by the site logic.
+        const SITE_CONFIG = EDIT_SITE;
+        const DEFAULT_LONG_VIDS = EDIT_LONG_VIDEOS;
+        const DEFAULT_SHORT_VIDS = EDIT_SHORT_VIDEOS;
+        const TESTIMONIALS_DATA = EDIT_TESTIMONIALS;
+
+        let activeLongVideos = [...DEFAULT_LONG_VIDS];
+        let activeShortVideos = [...DEFAULT_SHORT_VIDS];
+        let activeWhatsAppNumber = SITE_CONFIG.whatsapp;
+        let activeIntroVideo = SITE_CONFIG.introVideo;
+        let activeProfilePhoto = SITE_CONFIG.profilePhoto;
+        let activeCvUrl = SITE_CONFIG.cvUrl;
 
         // Custom Triangle Cursor logic
         const customCursor = document.getElementById("custom-cursor");
@@ -720,121 +695,59 @@
             }
         }
 
-        // Load configuration datasets
-        function loadConfigurations() {
-            const storedLong = localStorage.getItem("kae_long_videos");
-            const storedShort = localStorage.getItem("kae_short_videos");
-            const storedWhatsApp = localStorage.getItem("kae_whatsapp_number");
-            const storedIntro = localStorage.getItem("kae_intro_video");
-            const storedThemeHex = localStorage.getItem("kae_theme_color") || "#CCFF00";
-            const storedPhoto = localStorage.getItem("kae_profile_photo") || DEFAULT_PROFILE_PHOTO;
-            const storedCvUrl = localStorage.getItem("kae_cv_url") || DEFAULT_CV_URL;
+        // Initialize every editable value from the NOOB EDIT ZONE above.
+        function initializeSiteConfig() {
+            activeLongVideos = [...DEFAULT_LONG_VIDS];
+            activeShortVideos = [...DEFAULT_SHORT_VIDS];
+            activeWhatsAppNumber = SITE_CONFIG.whatsapp;
+            activeIntroVideo = SITE_CONFIG.introVideo;
+            activeProfilePhoto = SITE_CONFIG.profilePhoto;
+            activeCvUrl = SITE_CONFIG.cvUrl;
 
-            if (storedLong) {
-                try { 
-                    const parsed = JSON.parse(storedLong); 
-                    activeLongVideos = parsed.map(v => typeof v === 'string' ? {id: v, title: "Project Name"} : v);
-                } catch(e) { activeLongVideos = [...DEFAULT_LONG_VIDS]; }
-            } else {
-                activeLongVideos = [...DEFAULT_LONG_VIDS];
-            }
+            // Identity + hero
+            document.getElementById("logo-branding").textContent = SITE_CONFIG.logoText;
+            document.getElementById("hero-heading").textContent = SITE_CONFIG.heroHeading;
+            document.getElementById("hero-bio").textContent = SITE_CONFIG.heroBio;
+            document.getElementById("portrait-name").textContent = SITE_CONFIG.logoText;
+            document.getElementById("portrait-location").textContent = SITE_CONFIG.location.toUpperCase();
 
-            if (storedShort) {
-                try { 
-                    const parsed = JSON.parse(storedShort);
-                    activeShortVideos = parsed.map(v => typeof v === 'string' ? {id: v, title: "Short Reel"} : v);
-                } catch(e) { activeShortVideos = [...DEFAULT_SHORT_VIDS]; }
-            } else {
-                activeShortVideos = [...DEFAULT_SHORT_VIDS];
-            }
-
-            if (storedWhatsApp) { activeWhatsAppNumber = storedWhatsApp; } else { activeWhatsAppNumber = DEFAULT_WHATSAPP; }
-            if (storedIntro) { activeIntroVideo = storedIntro; } else { activeIntroVideo = DEFAULT_INTRO_VIDEO; }
-
-            activeProfilePhoto = storedPhoto;
-            activeCvUrl = storedCvUrl;
-
-            // Apply profile image source
+            // Profile + intro
             const profileImg = document.getElementById("profile-photo");
-            if (profileImg) { profileImg.src = activeProfilePhoto; }
+            if (profileImg) {
+                profileImg.src = activeProfilePhoto;
+                profileImg.alt = SITE_CONFIG.name;
+            }
+            const introPreview = document.getElementById("intro-video-preview");
+            if (introPreview) introPreview.src = SITE_CONFIG.introPreview;
 
-            // Apply custom theme hex color dynamically
-            applyThemeColor(storedThemeHex);
+            // Contact links + copy
+            document.getElementById("linkedin-link").href = SITE_CONFIG.linkedin;
+            document.getElementById("contact-heading").textContent = SITE_CONFIG.contactHeading;
+            document.getElementById("contact-copy").textContent = SITE_CONFIG.contactCopy;
+            document.getElementById("contact-email-link").href = `mailto:${SITE_CONFIG.email}`;
+            document.getElementById("contact-email-text").textContent = SITE_CONFIG.email;
+            document.getElementById("fab-email-button").href = `mailto:${SITE_CONFIG.email}`;
+            document.getElementById("testimonials-heading").textContent = SITE_CONFIG.testimonialsHeading;
+            document.getElementById("footer-text").textContent = SITE_CONFIG.footerText;
+
+            // Browser title + metadata
+            document.getElementById("page-title").textContent = SITE_CONFIG.pageTitle;
+            document.getElementById("meta-description").setAttribute("content", SITE_CONFIG.pageDescription);
+            document.getElementById("og-title").setAttribute("content", SITE_CONFIG.pageTitle);
+            document.getElementById("og-description").setAttribute("content", SITE_CONFIG.socialDescription);
+
+            applyThemeColor(SITE_CONFIG.themeColor);
             updateWhatsAppButtonLink();
         }
 
-        // Apply loaded/configured WhatsApp deep link to floating badge
+        // Apply configured WhatsApp deep link to floating badge
         function updateWhatsAppButtonLink() {
             const btn = document.getElementById("fab-whatsapp-button");
             if(btn){
-                const textMsg = encodeURIComponent("Hi Shayer, I saw your video production portfolio and I would love to connect about a project!");
+                const textMsg = encodeURIComponent(SITE_CONFIG.whatsappMessage);
                 btn.href = `https://wa.me/${activeWhatsAppNumber}?text=${textMsg}`;
             }
         }
-
-        // Stealth Admin Handler: Clicking status badge 5 times prompts security PIN modal
-        function handleAdminTrigger() {
-            logoClickCount++;
-            if (logoClickCount === 1) {
-                setTimeout(() => { logoClickCount = 0; }, 3000);
-            }
-            if (logoClickCount >= 5) {
-                logoClickCount = 0;
-                openPinModal();
-            }
-        }
-
-        // Pin confirmation logic
-        function openPinModal() {
-            const modal = document.getElementById("pin-modal");
-            const content = document.getElementById("pin-modal-content");
-            document.getElementById("admin-pin-field").value = "";
-            modal.classList.remove("hidden");
-            setTimeout(() => {
-                modal.classList.remove("opacity-0");
-                content.classList.remove("scale-95");
-                content.classList.add("scale-100");
-                document.getElementById("admin-pin-field").focus();
-            }, 50);
-        }
-
-        function closePinModal() {
-            const modal = document.getElementById("pin-modal");
-            const content = document.getElementById("pin-modal-content");
-            modal.classList.add("opacity-0");
-            content.classList.remove("scale-100");
-            content.classList.add("scale-95");
-            setTimeout(() => {
-                modal.classList.add("hidden");
-            }, 300);
-        }
-
-        // Auto-check PIN length as Shayer types to avoid clicking confirm
-        function checkPinLength(input) {
-            if (input.value.length === 4) {
-                verifyAdminPin();
-            }
-        }
-
-        function verifyAdminPin() {
-            const pinVal = document.getElementById("admin-pin-field").value;
-            if (pinVal === "1908") {
-                closePinModal();
-                toggleDrawer(true);
-                showToast("System configurations unlocked", "success");
-            } else {
-                showToast("Invalid PIN. Access denied.", "error");
-                document.getElementById("admin-pin-field").value = "";
-                document.getElementById("admin-pin-field").focus();
-            }
-        }
-
-        // Close PIN Modal on clicking outside the card
-        document.getElementById("pin-modal").addEventListener("click", function(e) {
-            if (e.target === this) {
-                closePinModal();
-            }
-        });
 
         // FLOATING CONTACT HUB CONTROL LOGIC (FAB Toggle)
         let isFabOpen = false;
@@ -853,12 +766,41 @@
             }
         }
 
+        // Accepts a full YouTube URL or a plain video ID from the edit zone.
+        function getYouTubeId(value) {
+            if (!value) return "";
+            const input = String(value).trim();
+            if (/^[A-Za-z0-9_-]{11}$/.test(input)) return input;
+
+            try {
+                const url = new URL(input);
+                if (url.hostname.includes("youtu.be")) {
+                    return url.pathname.split("/").filter(Boolean)[0] || "";
+                }
+                if (url.hostname.includes("youtube.com")) {
+                    if (url.pathname === "/watch") return url.searchParams.get("v") || "";
+                    const parts = url.pathname.split("/").filter(Boolean);
+                    const specialIndex = parts.findIndex(p => ["embed", "shorts", "live"].includes(p));
+                    if (specialIndex >= 0 && parts[specialIndex + 1]) return parts[specialIndex + 1];
+                }
+            } catch (error) {
+                return "";
+            }
+            return "";
+        }
+
         // LIGHTBOX ENGINE (Opens video dynamically, supports sound on direct interaction)
-        function openLightbox(videoId, isVertical) {
+        function openLightbox(videoValue, isVertical) {
             const lightbox = document.getElementById("video-lightbox");
             const content = document.getElementById("lightbox-content");
-            
-            const finalUrl = `https://www.youtube.com/embed/${lxgeMqABPiA}?autoplay=1&mute=0&controls=1&modestbranding=1&rel=0`;
+            const videoId = getYouTubeId(videoValue);
+
+            if (!videoId) {
+                showToast("Invalid YouTube link in edit zone", "error");
+                return;
+            }
+
+            const finalUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&controls=1&modestbranding=1&rel=0`;
 
             if (isVertical) {
                 content.className = "w-full max-w-[340px] sm:max-w-[380px] aspect-[9/16] transition-transform duration-300 transform scale-95 mx-auto bg-black rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative cursor-none";
@@ -907,7 +849,10 @@
                 const cell = document.createElement("div");
                 cell.className = "grid-item-target relative overflow-hidden bg-[#0d1017] border border-white/10 rounded-[20px] aspect-video cursor-none";
                 
-                const embedUrl = `https://www.youtube.com/embed/${vid.id}?autoplay=1&mute=1&loop=1&playlist=${vid.id}&controls=0&playsinline=1&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&enablejsapi=1`;
+                const videoValue = vid.youtube || vid.id;
+                const videoId = getYouTubeId(videoValue);
+                if (!videoId) return;
+                const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&playsinline=1&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&enablejsapi=1`;
 
                 cell.innerHTML = `
                     <iframe 
@@ -918,7 +863,7 @@
                         allow="autoplay; encrypted-media" 
                         allowfullscreen>
                     </iframe>
-                    <div onclick="openLightbox('${vid.id}', false)" class="absolute inset-0 z-10 hover:bg-black/10 transition-colors"></div>
+                    <button type="button" aria-label="Play ${vid.title}" onclick="openLightbox('${videoId}', false)" class="absolute inset-0 z-10 hover:bg-black/10 transition-colors"></button>
                 `;
 
                 const meta = document.createElement("div");
@@ -944,7 +889,10 @@
                 const cell = document.createElement("div");
                 cell.className = "grid-item-target relative overflow-hidden bg-[#0d1017] border border-white/10 rounded-[20px] aspect-[9/16] cursor-none";
 
-                const embedUrl = `https://www.youtube.com/embed/${vid.id}?autoplay=1&mute=1&loop=1&playlist=${vid.id}&controls=0&playsinline=1&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&enablejsapi=1`;
+                const videoValue = vid.youtube || vid.id;
+                const videoId = getYouTubeId(videoValue);
+                if (!videoId) return;
+                const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&playsinline=1&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&enablejsapi=1`;
 
                 cell.innerHTML = `
                     <iframe 
@@ -955,7 +903,7 @@
                         allow="autoplay; encrypted-media" 
                         allowfullscreen>
                     </iframe>
-                    <div onclick="openLightbox('${vid.id}', true)" class="absolute inset-0 z-10 hover:bg-black/10 transition-colors"></div>
+                    <button type="button" aria-label="Play ${vid.title}" onclick="openLightbox('${videoId}', true)" class="absolute inset-0 z-10 hover:bg-black/10 transition-colors"></button>
                 `;
 
                 const meta = document.createElement("div");
@@ -966,6 +914,34 @@
                 wrapper.appendChild(meta);
                 container.appendChild(wrapper);
             });
+        }
+
+        // Render the brand marquee from EDIT BRANDS.
+        function renderBrands() {
+            const marquee = document.getElementById("brands-marquee");
+            if (!marquee) return;
+
+            const makeBlock = () => {
+                const block = document.createElement("div");
+                block.className = "inline-flex items-center space-x-12";
+
+                EDIT_BRANDS.forEach((brand) => {
+                    const name = document.createElement("span");
+                    name.className = "font-mono text-xl sm:text-2xl font-bold tracking-[0.3em] text-slate-600 hover:text-[var(--accent-primary)] transition-colors cursor-none px-6";
+                    name.textContent = brand;
+
+                    const dot = document.createElement("span");
+                    dot.className = "w-1.5 h-1.5 rounded-full bg-slate-800";
+
+                    block.appendChild(name);
+                    block.appendChild(dot);
+                });
+                return block;
+            };
+
+            marquee.innerHTML = "";
+            marquee.appendChild(makeBlock());
+            marquee.appendChild(makeBlock());
         }
 
         // Render Testimonials Dynamically
@@ -1011,191 +987,6 @@
             renderTrack(track3, col3Data);
         }
 
-        // Configure Input Forms inside Drawer
-        function buildDrawerInputs() {
-            // Update inputs
-            document.getElementById("input-whatsapp-num").value = activeWhatsAppNumber;
-            document.getElementById("input-intro-video-id").value = activeIntroVideo;
-            document.getElementById("input-profile-photo-url").value = activeProfilePhoto;
-            document.getElementById("input-cv-url").value = activeCvUrl;
-
-            // Load Hex color inputs
-            const activeThemeColor = localStorage.getItem("kae_theme_color") || "#CCFF00";
-            document.getElementById("input-theme-color-hex").value = activeThemeColor;
-            document.getElementById("input-theme-color-picker").value = activeThemeColor;
-
-            // Populate Long Videos Array
-            const longContainer = document.getElementById("drawer-long-inputs");
-            longContainer.innerHTML = "";
-            activeLongVideos.forEach((vid, index) => {
-                const item = document.createElement("div");
-                item.className = "p-2 rounded bg-white/[0.02] border border-white/5 space-y-2";
-                item.innerHTML = `
-                    <div class="flex items-center justify-between gap-2">
-                        <span class="font-mono text-[9px] text-slate-500 w-8">ID:</span>
-                        <input type="text" id="input-long-id-${index}" value="${vid.id}" class="flex-grow bg-[#0d121d] text-white font-mono text-xs px-2 py-1.5 rounded border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none cursor-none" maxlength="11">
-                    </div>
-                    <div class="flex items-center justify-between gap-2">
-                        <span class="font-mono text-[9px] text-slate-500 w-8">Title:</span>
-                        <input type="text" id="input-long-title-val-${index}" value="${vid.title}" class="flex-grow bg-[#0d121d] text-white font-mono text-xs px-2 py-1.5 rounded border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none cursor-none">
-                    </div>
-                `;
-                longContainer.appendChild(item);
-            });
-
-            // Populate Shorts Array
-            const shortContainer = document.getElementById("drawer-short-inputs");
-            shortContainer.innerHTML = "";
-            activeShortVideos.forEach((vid, index) => {
-                const item = document.createElement("div");
-                item.className = "p-2 rounded bg-white/[0.02] border border-white/5 space-y-2";
-                item.innerHTML = `
-                    <div class="flex items-center justify-between gap-2">
-                        <span class="font-mono text-[9px] text-slate-500 w-8">ID:</span>
-                        <input type="text" id="input-short-id-${index}" value="${vid.id}" class="flex-grow bg-[#0d121d] text-white font-mono text-xs px-2 py-1.5 rounded border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none cursor-none" maxlength="11">
-                    </div>
-                    <div class="flex items-center justify-between gap-2">
-                        <span class="font-mono text-[9px] text-slate-500 w-8">Title:</span>
-                        <input type="text" id="input-short-title-val-${index}" value="${vid.title}" class="flex-grow bg-[#0d121d] text-white font-mono text-xs px-2 py-1.5 rounded border border-white/10 focus:border-[var(--accent-primary)] focus:outline-none cursor-none">
-                    </div>
-                `;
-                shortContainer.appendChild(item);
-            });
-        }
-
-        // Live synchronizer bindings for admin colors
-        document.getElementById("input-theme-color-picker").addEventListener("input", (e) => {
-            document.getElementById("input-theme-color-hex").value = e.target.value.toUpperCase();
-        });
-        document.getElementById("input-theme-color-hex").addEventListener("input", (e) => {
-            let val = e.target.value;
-            if (val.startsWith("#") && val.length === 7) {
-                document.getElementById("input-theme-color-picker").value = val;
-            }
-        });
-
-        function toggleDrawer(open) {
-            const drawer = document.getElementById("drawer-panel");
-            if (open) {
-                buildDrawerInputs();
-                drawer.classList.remove("translate-x-full");
-            } else {
-                drawer.classList.add("translate-x-full");
-            }
-        }
-
-        // Save active video lists & settings to storage and reload arrays
-        function saveGridConfig() {
-            // Validate WhatsApp Number Input
-            const whatsappInput = document.getElementById("input-whatsapp-num").value.trim().replace(/\D/g,'');
-            if (whatsappInput.length < 7) {
-                showToast("Error: Please enter a valid WhatsApp phone number", "error");
-                return;
-            }
-
-            // Validate Intro Video YouTube ID
-            const introInput = document.getElementById("input-intro-video-id").value.trim();
-            if (introInput.length !== 11) {
-                showToast("Error: Intro Video ID must be exactly 11 characters", "error");
-                return;
-            }
-
-            // Validate Profile Photo URL
-            const photoInput = document.getElementById("input-profile-photo-url").value.trim();
-            if (photoInput.length === 0) {
-                showToast("Error: Profile Photo URL cannot be empty", "error");
-                return;
-            }
-
-            // Validate CV File URL
-            const cvInput = document.getElementById("input-cv-url").value.trim();
-            if (cvInput.length === 0) {
-                showToast("Error: CV File URL cannot be empty", "error");
-                return;
-            }
-
-            // Validate hex color settings
-            const themeHex = document.getElementById("input-theme-color-hex").value.trim();
-            if (/^#[0-9A-F]{6}$/i.test(themeHex)) {
-                localStorage.setItem("kae_theme_color", themeHex);
-                applyThemeColor(themeHex);
-            } else {
-                showToast("Error: Invalid Hex color format (must be #RRGGBB)", "error");
-                return;
-            }
-
-            const newLongs = [];
-            for (let i = 0; i < activeLongVideos.length; i++) {
-                const valId = document.getElementById(`input-long-id-${i}`).value.trim();
-                const valTitle = document.getElementById(`input-long-title-val-${i}`).value.trim();
-                if (valId.length === 11) {
-                    newLongs.push({ id: valId, title: valTitle || "Project Name" });
-                } else {
-                    showToast("Error: Long Video index must be an 11-digit ID", "error");
-                    return;
-                }
-            }
-
-            const newShorts = [];
-            for (let i = 0; i < activeShortVideos.length; i++) {
-                const valId = document.getElementById(`input-short-id-${i}`).value.trim();
-                const valTitle = document.getElementById(`input-short-title-val-${i}`).value.trim();
-                if (valId.length === 11) {
-                    newShorts.push({ id: valId, title: valTitle || "Short Reel" });
-                } else {
-                    showToast("Error: Short Video index must be an 11-digit ID", "error");
-                    return;
-                }
-            }
-
-            activeLongVideos = newLongs;
-            activeShortVideos = newShorts;
-            activeWhatsAppNumber = whatsappInput;
-            activeIntroVideo = introInput;
-            activeProfilePhoto = photoInput;
-            activeCvUrl = cvInput;
-
-            localStorage.setItem("kae_long_videos", JSON.stringify(activeLongVideos));
-            localStorage.setItem("kae_short_videos", JSON.stringify(activeShortVideos));
-            localStorage.setItem("kae_whatsapp_number", activeWhatsAppNumber);
-            localStorage.setItem("kae_intro_video", activeIntroVideo);
-            localStorage.setItem("kae_profile_photo", activeProfilePhoto);
-            localStorage.setItem("kae_cv_url", activeCvUrl);
-
-            // Reload configurations
-            loadConfigurations();
-            renderLongVideos();
-            renderShortVideos();
-            renderTestimonials();
-            toggleDrawer(false);
-            showToast("Configurations compiled & saved", "success");
-        }
-
-        // Reset to original defaults
-        function resetGridToDefault() {
-            localStorage.removeItem("kae_long_videos");
-            localStorage.removeItem("kae_short_videos");
-            localStorage.removeItem("kae_whatsapp_number");
-            localStorage.removeItem("kae_intro_video");
-            localStorage.removeItem("kae_profile_photo");
-            localStorage.removeItem("kae_theme_color");
-            localStorage.removeItem("kae_cv_url");
-
-            activeLongVideos = [...DEFAULT_LONG_VIDS];
-            activeShortVideos = [...DEFAULT_SHORT_VIDS];
-            activeWhatsAppNumber = DEFAULT_WHATSAPP;
-            activeIntroVideo = DEFAULT_INTRO_VIDEO;
-            activeProfilePhoto = DEFAULT_PROFILE_PHOTO;
-            activeCvUrl = DEFAULT_CV_URL;
-
-            loadConfigurations();
-            renderLongVideos();
-            renderShortVideos();
-            renderTestimonials();
-            toggleDrawer(false);
-            showToast("System reverted to initial states", "success");
-        }
-
         // Handle Direct Contact Message Submission
         function handleFormSubmit(event) {
             event.preventDefault();
@@ -1203,15 +994,14 @@
             const email = document.getElementById("form-email").value;
             const message = document.getElementById("form-message").value;
 
-            showToast("Opening secure mail portal...", "info");
+            showToast("Opening your email app...", "info");
 
             setTimeout(() => {
-                const subject = encodeURIComponent("Video Project Inquiry from " + name);
-                const body = encodeURIComponent("Hi Shayer,\n\n" + message + "\n\nMy email is: " + email);
-                window.location.href = "mailto:hello.shayer@gmail.com?subject=" + subject + "&body=" + body;
+                const subject = encodeURIComponent(SITE_CONFIG.emailSubjectPrefix + name);
+                const body = encodeURIComponent(SITE_CONFIG.emailGreeting + "\n\n" + message + "\n\nMy email is: " + email);
+                window.location.href = "mailto:" + SITE_CONFIG.email + "?subject=" + subject + "&body=" + body;
                 
-                document.getElementById("contact-form").reset();
-                showToast("Inquiry recorded successfully", "success");
+                showToast("Draft prepared in your email app", "success");
             }, 1000);
         }
 
@@ -1295,7 +1085,7 @@
                     let dy = targetY - this.y;
                     let dist = Math.sqrt(dx * dx + dy * dy);
 
-                    if (dist < maxDist) {
+                    if (dist > 0 && dist < maxDist) {
                         const strength = (maxDist - dist) / maxDist;
                         const factor = strength * strength * 2.5; 
                         forceX = -(dx / dist) * factor;
@@ -1375,7 +1165,7 @@
             const themeRgbStr = document.documentElement.style.getPropertyValue('--accent-primary-rgb') || "204, 255, 0";
 
             for (let a = 0; a < particles.length; a++) {
-                for (let b = a; b < particles.length; b++) {
+                for (let b = a + 1; b < particles.length; b++) {
                     let dx = particles[a].x - particles[b].x;
                     let dy = particles[a].y - particles[b].y;
                     let distance = Math.sqrt(dx * dx + dy * dy);
@@ -1450,12 +1240,20 @@
 
         window.addEventListener("resize", resizeCanvas);
 
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                const lightbox = document.getElementById("video-lightbox");
+                if (lightbox && !lightbox.classList.contains("hidden")) closeLightbox();
+            }
+        });
+
         // Instantiation
         window.onload = function() {
-            loadConfigurations();
+            initializeSiteConfig();
             renderLongVideos();
             renderShortVideos();
             renderTestimonials();
+            renderBrands();
             resizeCanvas();
             requestAnimationFrame(animate);
             showToast("System ready", "success");
